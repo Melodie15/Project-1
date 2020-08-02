@@ -61,6 +61,7 @@ function displayDates() {
 	}
 
 $("#add-cities").on("click", function() {
+	$("#hotel-view").empty()
 	event.preventDefault();
 	var monthfromInput =$("#From-months").val()
 	var dayfromInput = $(".dayfromselector").val()
@@ -69,8 +70,10 @@ $("#add-cities").on("click", function() {
 	var monthUntilInput = $("#until-month").val()
 	var dayUntilInput = $(".dayUntilSelector").val()
 	var yearUntilInput =$(".yearUntilSelector").val()
-	console.log( monthfromInput, dayfromInput, yearfromInput)
-	console.log(monthUntilInput, dayUntilInput,yearUntilInput)
+	var checkin = + yearfromInput + "-"+ monthfromInput + "-"+ dayfromInput 
+	var checkout = + yearUntilInput +"-"+ monthUntilInput+"-"+ dayUntilInput
+	console.log( checkin)
+	console.log(checkout)
 	var settings = {
 	"async": true,
 	"crossDomain": true,
@@ -103,17 +106,20 @@ $("#add-cities").on("click", function() {
 	console.log(response.data.body.searchResults.results)
 	var searchResults = response.data.body.searchResults.results
 		for (var i = 0; i < 5; i++) {
-			
+			var hotelID = searchResults[i].supplierHotelId
+			console.log(checkin)
 			var hotelResult = $("<div>");
+			hotelResult.addClass("hotel");
 			
-			hotelResult.addClass("cities list-group-");
-			
-			hotelResult.attr("data-name", searchResults[i]).name;
+			hotelResult.attr("data-name", searchResults[i].name)
 
-			hotelResult.text(searchResults[i].name).css('textTransform', 'capitalize')
+			hotelResult.html("<a href=https://www.expedia.com/h" + hotelID +".Hotel-Information?chkin=" + checkin +'&chkout=' +checkout+">"+searchResults[i].name +'</a>')
+
+			
+
+
 			$("#hotel-view").append(hotelResult);
 		  } 
-
 	});
 });
 });
