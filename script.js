@@ -59,8 +59,8 @@ function displayDates() {
 		yearUntilselector.append(yearUntilOption)
 		$("#until-form").append(yearUntilselector);
 	}
-
-$("#add-cities").on("click", function() {
+}
+$("#add-cities").on("click", function(info) {
 	$("#hotel-view").empty()
 	event.preventDefault();
 	var monthfromInput =$("#From-months").val()
@@ -74,7 +74,8 @@ $("#add-cities").on("click", function() {
 	var checkout = + yearUntilInput +"-"+ monthUntilInput+"-"+ dayUntilInput
 	console.log( checkin)
 	console.log(checkout)
-	var settings = {
+	
+var settings = {
 	"async": true,
 	"crossDomain": true,
 	"url": "https://hotels4.p.rapidapi.com/locations/search?locale=en_US&query=" + cityinput,
@@ -110,18 +111,26 @@ $("#add-cities").on("click", function() {
 			console.log(checkin)
 			var hotelResult = $("<div>");
 			hotelResult.addClass("hotel");
-			
 			hotelResult.attr("data-name", searchResults[i].name)
-
 			hotelResult.html("<a href=https://www.expedia.com/h" + hotelID +".Hotel-Information?chkin=" + checkin +'&chkout=' +checkout+">"+searchResults[i].name +'</a>')
 
+			var rateDiv = $("<div>")
+			console.log (searchResults[0].ratePlan.price.current)
+			var rate = searchResults[0].ratePlan.price.current
+			rateDiv.text("Daily Rates: " + rate)
 			
+			var reviewDiv = $("<div>")
+			console.log (searchResults[0].ratePlan.price.current)
+			var rate = searchResults[0].guestReviews.rating
+			reviewDiv.text("Guest Reviews: " + rate +"/10")
 
 
+			hotelResult.append(rateDiv, reviewDiv)
+			
 			$("#hotel-view").append(hotelResult);
 		  } 
 	});
 });
 });
-}
+
 displayDates()
