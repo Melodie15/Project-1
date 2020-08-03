@@ -72,10 +72,63 @@ $("#add-cities").on("click", function(info) {
 	var yearUntilInput =$(".yearUntilSelector").val()
 	var checkin = + yearfromInput + "-"+ monthfromInput + "-"+ dayfromInput 
 	var checkout = + yearUntilInput +"-"+ monthUntilInput+"-"+ dayUntilInput
-	console.log( checkin)
-	console.log(checkout)
+	tripadvisor()
+	hotelsAPI()
+
+
+function tripadvisor(){ 
+	var tripAdvisorSettings = {
+	"async": true,
+	"crossDomain": true,
+	"url": "https://tripadvisor1.p.rapidapi.com/locations/search?location_id=10&limit=30&sort=relevance&offset=0&lang=en_US&currency=USD&units=km&query=" + cityinput,
+	"method": "GET",
+	"headers": {
+		"x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
+		"x-rapidapi-key": "8fc8315f1amsh70aff4e1a3ba621p1d89e4jsn59ed596832c4"
+	}
+}
+
+$.ajax(tripAdvisorSettings).done(function (response) {
+	console.log(response)
+	console.log(response.data[0].result_object.location_id)
+	var tripAdvisorID = response.data[0].result_object.location_id
+	var AdvisorIDsettings = {
+		"async": true,
+		"crossDomain": true,
+		"url": "https://tripadvisor1.p.rapidapi.com/attractions/list?lang=en_US&currency=USD&sort=recommended&lunit=km&location_id="+tripAdvisorID,
+		"method": "GET",
+		"headers": {
+			"x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
+			"x-rapidapi-key": "8fc8315f1amsh70aff4e1a3ba621p1d89e4jsn59ed596832c4"
+		}
+	}
 	
-var settings = {
+	$.ajax(AdvisorIDsettings).done(function (response) {
+		console.log(response)
+		console.log(response.data[0].name)
+		console.log(response.data[0].website)
+		
+		for (i = 0; i < 5 ; i++) {
+		var attractionDivEl = $("<div>");
+		attractionDivEl.addClass("attractions");
+		attractionDivEl.attr("data-set",[i]);
+		attractionDivEl.html("<a href="+ response.data[i].website+">" +response.data[i].name +'</a>');
+		var descriptionDivEl = $("<div>");
+		descriptionDivEl.addClass("description")
+		descriptionDivEl.text(response.data[i].description)
+		var image = response.data[i].photo.images.medium.url
+		var imageDivEl = $("<img>")
+		imageDivEl.attr("src", image)
+		attractionDivEl.append(descriptionDivEl,imageDivEl )
+		$("#attractions-view").append(attractionDivEl)
+
+
+	}});
+
+});
+}	
+function hotelsAPI(){
+	var settings = {
 	"async": true,
 	"crossDomain": true,
 	"url": "https://hotels4.p.rapidapi.com/locations/search?locale=en_US&query=" + cityinput,
@@ -83,8 +136,7 @@ var settings = {
 	"headers": {
 		"x-rapidapi-host": "hotels4.p.rapidapi.com",
 		"x-rapidapi-key": "8fc8315f1amsh70aff4e1a3ba621p1d89e4jsn59ed596832c4"
-	}
-	}
+	}};
 
 	$.ajax(settings).done(function (response) {
 	console.log(response);
@@ -127,10 +179,11 @@ var settings = {
 
 			hotelResult.append(rateDiv, reviewDiv)
 			
-			$("#hotel-view").append(hotelResult);
-		  } 
-	});
-});
+			$("#hotel-view").append(hotelResult); 
+		}
+	})
+}
+)};
 });
 
 displayDates()
