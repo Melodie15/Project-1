@@ -76,6 +76,7 @@ $("#add-cities").on("click", function(info) {
 	hotelsAPI()
 
 
+
 function tripadvisor(){ 
 	var tripAdvisorSettings = {
 	"async": true,
@@ -87,11 +88,13 @@ function tripadvisor(){
 		"x-rapidapi-key": "8fc8315f1amsh70aff4e1a3ba621p1d89e4jsn59ed596832c4"
 	}
 }
-
+$("#attractions-view").text("Attractions: ")
 $.ajax(tripAdvisorSettings).done(function (response) {
 	console.log(response)
 	console.log(response.data[0].result_object.location_id)
 	var tripAdvisorID = response.data[0].result_object.location_id
+	var lat = response.data[0].result_object.latitude
+	var lon = response.data[0].result_object.longitude
 	var AdvisorIDsettings = {
 		"async": true,
 		"crossDomain": true,
@@ -107,6 +110,7 @@ $.ajax(tripAdvisorSettings).done(function (response) {
 		console.log(response)
 		console.log(response.data[0].name)
 		console.log(response.data[0].website)
+		airBnbAPI()
 		
 		for (i = 0; i < 5 ; i++) {
 		var attractionDivEl = $("<div>");
@@ -120,10 +124,36 @@ $.ajax(tripAdvisorSettings).done(function (response) {
 		var imageDivEl = $("<img>")
 		imageDivEl.attr("src", image)
 		attractionDivEl.append(descriptionDivEl,imageDivEl )
-		$("#attractions-view").append(attractionDivEl)
+		$("#attractions-view").append(attractionDivEl)		
+	}})
+
+	function airBnbAPI(){
+		var settings = {
+		"async": true,
+		"crossDomain": true,
+		"url": "https://airbnb-com.p.rapidapi.com/listings/nearby/"+lat+"/"+lon+"?min_bathrooms=0&check_out=" + checkout+"&hotel_room=true&max_guests=1&check_in=" + checkin + "&private_room=true&min_bedrooms=0&offset=0&entire_home=true&min_price=0&max_price=5000&min_beds=0&radius=5&shared_room=true",
+		"method": "GET",
+		"headers": {
+			"x-rapidapi-host": "airbnb-com.p.rapidapi.com",
+			"x-rapidapi-key": "8fc8315f1amsh70aff4e1a3ba621p1d89e4jsn59ed596832c4"
+		}
+	}
+	
+	$.ajax(settings).done(function (response) {
+		console.log(response)
+		$("#airBnB-view").text("AirBnb:")
+		for (i = 0; i < 5 ; i++) {
+			var AirbnbDivEL = $("<div>")
+			var AirID = response.listings[i].listing.id
+			console.log(response.listings[0].listing.id)
+			AirbnbDivEL.addClass("airbnbDiv")
+			AirbnbDivEL.html('<a href='+"https://www.airbnb.com/rooms/"+ AirID +"?adults=1&location=Denver&check_in=" + checkin + "&" + "check_out=" + checkout + "&display_extensions%5B%5D=MONTHLY_STAYS&source_impression_id=p3_1596475569_Ye1hL0KJyqYINSTH>" + response.listings[i].listing.room_and_property_type + '</a>')
 
 
-	}});
+			$("#airBnB-view").append(AirbnbDivEL)
+		}
+	});
+	};
 
 });
 }	
