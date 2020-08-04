@@ -60,9 +60,12 @@ function displayDates() {
 		$("#until-form").append(yearUntilselector);
 	}
 }
+
 $("#add-cities").on("click", function(info) {
 	$("#hotel-view").empty()
 	event.preventDefault();
+	var lats =[]
+	var logs = []
 	var monthfromInput =$("#From-months").val()
 	var dayfromInput = $(".dayfromselector").val()
 	var yearfromInput = $(".yearfromselector").val()
@@ -74,7 +77,7 @@ $("#add-cities").on("click", function(info) {
 	var checkout = + yearUntilInput +"-"+ monthUntilInput+"-"+ dayUntilInput
 	tripadvisor()
 	hotelsAPI()
-
+	googleMaps()
 
 
 function tripadvisor(){ 
@@ -93,8 +96,10 @@ $.ajax(tripAdvisorSettings).done(function (response) {
 	console.log(response)
 	console.log(response.data[0].result_object.location_id)
 	var tripAdvisorID = response.data[0].result_object.location_id
-	var lat = response.data[0].result_object.latitude
+	var lati = response.data[0].result_object.latitude
 	var lon = response.data[0].result_object.longitude
+	console.log(lati)
+	console.log(lon)
 	var AdvisorIDsettings = {
 		"async": true,
 		"crossDomain": true,
@@ -111,6 +116,27 @@ $.ajax(tripAdvisorSettings).done(function (response) {
 		console.log(response.data[0].name)
 		console.log(response.data[0].website)
 		airBnbAPI()
+		googleMaps()
+		function googleMaps(){
+			var script = $('<script>');
+			script.attr("src",'https://maps.googleapis.com/maps/api/js?key=AIzaSyCCFEOkbkpCzlLVqGgBY4uflsf8ZXCPq-w&callback=initMap');
+			script.attr("defer", true)
+		
+		// Attach your callback function to the `window` object
+		window.initMap = function() {
+			console.log(lati)
+		console.log(lon)
+		var location = {lat: Number(lati), lng: Number(lon)};
+		  // The map, centered at Uluru
+		  var map = new google.maps.Map(
+			  document.getElementById("map"), {zoom: 15, center: location});
+		  // The marker, positioned at Uluru
+		  var marker = new google.maps.Marker({position: location, map: map});
+		};
+		console.log(script[0])
+		// Append the 'script' element to 'head'
+		document.head.append(script[0]);
+		}
 		
 		for (i = 0; i < 5 ; i++) {
 		var attractionDivEl = $("<div>");
@@ -124,14 +150,15 @@ $.ajax(tripAdvisorSettings).done(function (response) {
 		var imageDivEl = $("<img>")
 		imageDivEl.attr("src", image)
 		attractionDivEl.append(descriptionDivEl,imageDivEl )
-		$("#attractions-view").append(attractionDivEl)		
+		$("#attractions-view").append(attractionDivEl)	
+		
 	}})
 
 	function airBnbAPI(){
 		var settings = {
 		"async": true,
 		"crossDomain": true,
-		"url": "https://airbnb-com.p.rapidapi.com/listings/nearby/"+lat+"/"+lon+"?min_bathrooms=0&check_out=" + checkout+"&hotel_room=true&max_guests=1&check_in=" + checkin + "&private_room=true&min_bedrooms=0&offset=0&entire_home=true&min_price=0&max_price=5000&min_beds=0&radius=5&shared_room=true",
+		"url": "https://airbnb-com.p.rapidapi.com/listings/nearby/"+lati+"/"+lon+"?min_bathrooms=0&check_out=" + checkout+"&hotel_room=true&max_guests=1&check_in=" + checkin + "&private_room=true&min_bedrooms=0&offset=0&entire_home=true&min_price=0&max_price=5000&min_beds=0&radius=5&shared_room=true",
 		"method": "GET",
 		"headers": {
 			"x-rapidapi-host": "airbnb-com.p.rapidapi.com",
@@ -146,8 +173,10 @@ $.ajax(tripAdvisorSettings).done(function (response) {
 			var AirbnbDivEL = $("<div>")
 			var AirID = response.listings[i].listing.id
 			console.log(response.listings[0].listing.id)
+			console.log(response.listings[0].listing.room_and_property_type)
+			console.log(response.listings[0].pricing_quote.price_string)
 			AirbnbDivEL.addClass("airbnbDiv")
-			AirbnbDivEL.html('<a href='+"https://www.airbnb.com/rooms/"+ AirID +"?adults=1&location=Denver&check_in=" + checkin + "&" + "check_out=" + checkout + "&display_extensions%5B%5D=MONTHLY_STAYS&source_impression_id=p3_1596475569_Ye1hL0KJyqYINSTH>" + response.listings[i].listing.room_and_property_type + '</a>')
+			AirbnbDivEL.html('<a href='+"https://www.airbnb.com/rooms/"+ AirID +"?adults=1&location="+ cityinput +"&check_in=" + checkin + "&" + "check_out=" + checkout + "&display_extensions%5B%5D=MONTHLY_STAYS&source_impression_id=p3_1596475569_Ye1hL0KJyqYINSTH>" + response.listings[i].listing.room_and_property_type + "-  " + response.listings[i].pricing_quote.price_string + '</a>')
 
 
 			$("#airBnB-view").append(AirbnbDivEL)
@@ -215,5 +244,9 @@ function hotelsAPI(){
 }
 )};
 });
+
+
+
+
 
 displayDates()
