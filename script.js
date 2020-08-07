@@ -89,7 +89,6 @@ $("#add-cities").on("click", function(info) {
 
 function tripadvisor(){ 
 	var tripAdvisorSettings = {
-	"async": false,
 	"crossDomain": true,
 	"url": "https://tripadvisor1.p.rapidapi.com/locations/search?location_id=10&limit=30&sort=relevance&offset=0&lang=en_US&currency=USD&units=km&query=" + cityinput,
 	"method": "GET",
@@ -104,7 +103,6 @@ $.ajax(tripAdvisorSettings).then(function (response) {
 	var lati = response.data[0].result_object.latitude
 	var lon = response.data[0].result_object.longitude
 	var AdvisorIDsettings = {
-		"async": true,
 		"crossDomain": true,
 		"url": "https://tripadvisor1.p.rapidapi.com/attractions/list?lang=en_US&currency=USD&sort=recommended&lunit=km&location_id="+tripAdvisorID,
 		"method": "GET",
@@ -189,7 +187,6 @@ $.ajax(tripAdvisorSettings).then(function (response) {
 
 	function airBnbAPI(){
 		var settings = {
-		"async": false,
 		"crossDomain": true,
 		"url": "https://airbnb-com.p.rapidapi.com/listings/nearby/"+lati+"/"+lon+"?min_bathrooms=0&check_out=" + checkout+"&hotel_room=true&max_guests=1&check_in=" + checkin + "&private_room=true&min_bedrooms=0&offset=0&entire_home=true&min_price=0&max_price=5000&min_beds=0&radius=5&shared_room=true",
 		"method": "GET",
