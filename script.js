@@ -1,7 +1,11 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> 8f5f76bfefe11208a23eba69140d7944f8927e15
+=======
+
+>>>>>>> 8cf88bad4d1b51b680f15352052d8c633a3d4c36
 function displayDates() {
 	var dayfromselector = $("<select>")
 	dayfromselector.addClass("dayfromselector")
@@ -16,9 +20,13 @@ function displayDates() {
         } 
 		else {dayfromOption.text(i + 1)}
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> 8f5f76bfefe11208a23eba69140d7944f8927e15
+=======
+
+>>>>>>> 8cf88bad4d1b51b680f15352052d8c633a3d4c36
 		dayfromselector.append(dayfromOption)
 		$("#From-form").append(dayfromselector);
 	}
@@ -39,9 +47,13 @@ function displayDates() {
 	dayUntilselector.addClass("dayUntilSelector")
 	for (var i = 1; i < 31; i++){
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 		
 >>>>>>> 8f5f76bfefe11208a23eba69140d7944f8927e15
+=======
+
+>>>>>>> 8cf88bad4d1b51b680f15352052d8c633a3d4c36
 		var dayUntilOption = $("<option>")
 		// Adds a class of city to our button
 		dayUntilOption.addClass("until-day");
@@ -52,9 +64,13 @@ function displayDates() {
         } 
 		else {dayUntilOption.text(i + 1)}
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> 8f5f76bfefe11208a23eba69140d7944f8927e15
+=======
+
+>>>>>>> 8cf88bad4d1b51b680f15352052d8c633a3d4c36
 		dayUntilselector.append(dayUntilOption)
 		$("#until-form").append(dayUntilselector);
 	}
@@ -71,6 +87,10 @@ function displayDates() {
 		yearUntilselector.append(yearUntilOption)
 		$("#until-form").append(yearUntilselector);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8cf88bad4d1b51b680f15352052d8c633a3d4c36
 	}
 }
 $("#add-cities").on("click", function(info) {
@@ -201,7 +221,11 @@ $.ajax(tripAdvisorSettings).done(function (response) {
 			"x-rapidapi-key": "8fc8315f1amsh70aff4e1a3ba621p1d89e4jsn59ed596832c4"
 		}
 	}
+<<<<<<< HEAD
 =======
+=======
+
+>>>>>>> 8cf88bad4d1b51b680f15352052d8c633a3d4c36
 	}
 }
 
@@ -343,7 +367,11 @@ $.ajax(tripAdvisorSettings).then(function (response) {
 		}
 	}
 	
+<<<<<<< HEAD
 >>>>>>> 8f5f76bfefe11208a23eba69140d7944f8927e15
+=======
+
+>>>>>>> 8cf88bad4d1b51b680f15352052d8c633a3d4c36
 	$.ajax(settings).done(function (response) {
 		console.log(response)
 		$("#airBnB-view").text("AirBnb:")
@@ -351,32 +379,56 @@ $.ajax(tripAdvisorSettings).then(function (response) {
 			var AirbnbDivEL = $("<div>")
 			var AirID = response.listings[i].listing.id
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8cf88bad4d1b51b680f15352052d8c633a3d4c36
 			console.log(response.listings[0].listing.id)
 			console.log(response.listings[0].listing.room_and_property_type)
 			console.log(response.listings[0].pricing_quote.price_string)
 			AirbnbDivEL.addClass("airbnbDiv")
 			AirbnbDivEL.html('<a href='+"https://www.airbnb.com/rooms/"+ AirID +"?adults=1&location="+ cityinput +"&check_in=" + checkin + "&" + "check_out=" + checkout + "&display_extensions%5B%5D=MONTHLY_STAYS&source_impression_id=p3_1596475569_Ye1hL0KJyqYINSTH>" + response.listings[i].listing.room_and_property_type + "-  " + response.listings[i].pricing_quote.price_string + '</a>')
 			console.log(response)
+<<<<<<< HEAD
 =======
 			AirbnbDivEL.addClass("airbnbDiv")
 			AirbnbDivEL.html('<a href='+"https://www.airbnb.com/rooms/"+ AirID +"?adults=1&location="+ cityinput +"&check_in=" + checkin + "&" + "check_out=" + checkout + "&display_extensions%5B%5D=MONTHLY_STAYS&source_impression_id=p3_1596475569_Ye1hL0KJyqYINSTH>" + response.listings[i].listing.room_and_property_type + "-  " + response.listings[i].pricing_quote.price_string + '</a>')
 
 >>>>>>> 8f5f76bfefe11208a23eba69140d7944f8927e15
+=======
+
+			AirbnbDivEL.addClass("airbnbDiv")
+			AirbnbDivEL.html('<a href='+"https://www.airbnb.com/rooms/"+ AirID +"?adults=1&location="+ cityinput +"&check_in=" + checkin + "&" + "check_out=" + checkout + "&display_extensions%5B%5D=MONTHLY_STAYS&source_impression_id=p3_1596475569_Ye1hL0KJyqYINSTH>" + response.listings[i].listing.room_and_property_type + "-  " + response.listings[i].pricing_quote.price_string + '</a>')
+
+
+>>>>>>> 8cf88bad4d1b51b680f15352052d8c633a3d4c36
 			$("#airBnB-view").append(AirbnbDivEL)
 		}
 	});
 	};
 <<<<<<< HEAD
-});
-}	
-});
-displayDates()
+<<<<<<< HEAD
 =======
 
+>>>>>>> 8cf88bad4d1b51b680f15352052d8c633a3d4c36
+});
+}	
+});
+displayDates()
+<<<<<<< HEAD
+=======
+=======
+
+>>>>>>> 8cf88bad4d1b51b680f15352052d8c633a3d4c36
+
 });
 }	
 });
 
 
 displayDates()
+<<<<<<< HEAD
 >>>>>>> 8f5f76bfefe11208a23eba69140d7944f8927e15
+=======
+
+>>>>>>> 8cf88bad4d1b51b680f15352052d8c633a3d4c36
