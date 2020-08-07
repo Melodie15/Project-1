@@ -68,8 +68,12 @@ $("#add-cities").on("click", function(info) {
 	$("#airBnB-view").empty()
 	$("#event-view").empty()
 	event.preventDefault();
-	var lats =[]
-	var logs = []
+	var lats =[];
+	var logs = [];
+	var names = [];
+	var images = [];
+	var descriptions = []
+	var urls = []
 	var monthfromInput =$("#From-months").val()
 	var dayfromInput = $(".dayfromselector").val()
 	var yearfromInput = $(".yearfromselector").val()
@@ -80,7 +84,7 @@ $("#add-cities").on("click", function(info) {
 	var checkin = + yearfromInput + "-"+ monthfromInput + "-"+ dayfromInput 
 	var checkout = + yearUntilInput +"-"+ monthUntilInput+"-"+ dayUntilInput
 	tripadvisor()
-	hotelsAPI()
+
 
 
 function tripadvisor(){ 
@@ -95,16 +99,12 @@ function tripadvisor(){
 	}
 }
 $("#attractions-view").text("Attractions: ")
-$.ajax(tripAdvisorSettings).done(function (response) {
-	console.log(response)
-	console.log(response.data[0].result_object.location_id)
+$.ajax(tripAdvisorSettings).then(function (response) {
 	var tripAdvisorID = response.data[0].result_object.location_id
 	var lati = response.data[0].result_object.latitude
 	var lon = response.data[0].result_object.longitude
-	console.log(lati)
-	console.log(lon)
 	var AdvisorIDsettings = {
-		"async": false,
+		"async": true,
 		"crossDomain": true,
 		"url": "https://tripadvisor1.p.rapidapi.com/attractions/list?lang=en_US&currency=USD&sort=recommended&lunit=km&location_id="+tripAdvisorID,
 		"method": "GET",
@@ -116,30 +116,9 @@ $.ajax(tripAdvisorSettings).done(function (response) {
 	
 	$.ajax(AdvisorIDsettings).done(function (response) {
 		console.log(response)
-		console.log(response.data[0].name)
-		console.log(response.data[0].website)
 		airBnbAPI()
 		googleMaps()
-		function googleMaps(){
-			var script = $('<script>');
-			script.attr("src",'https://maps.googleapis.com/maps/api/js?key=AIzaSyCCFEOkbkpCzlLVqGgBY4uflsf8ZXCPq-w&callback=initMap');
-			script.attr("defer", true)
 		
-		// Attach your callback function to the `window` object
-		window.initMap = function() {
-			console.log(lati)
-		console.log(lon)
-		var location = {lat: Number(lati), lng: Number(lon)};
-		  // The map, centered at Uluru
-		  var map = new google.maps.Map(
-			  document.getElementById("map"), {zoom: 15, center: location});
-		  // The marker, positioned at Uluru
-		  var marker = new google.maps.Marker({position: location, map: map});
-		};
-		console.log(script[0])
-		// Append the 'script' element to 'head'
-		document.head.append(script[0]);
-		}
 		
 		for (i = 0; i < 5 ; i++) {
 		var attractionDivEl = $("<div>");
@@ -149,14 +128,64 @@ $.ajax(tripAdvisorSettings).done(function (response) {
 		var descriptionDivEl = $("<div>");
 		descriptionDivEl.addClass("description")
 		descriptionDivEl.text(response.data[i].description)
-		var image = response.data[i].photo.images.medium.url
+		
+		var image = response.data[i].photo.images.small.url
 		var imageDivEl = $("<img>")
 		imageDivEl.attr("src", image)
 		imageDivEl.attr("width","20%")
 		attractionDivEl.append(descriptionDivEl,imageDivEl )
 		$("#attractions-view").append(attractionDivEl)	
-		
+		var latitude = response.data[i].latitude
+		var longitude = response.data[i].longitude
+		var name = response.data[i].name
+		var description = response.data[i].description
+		var url = response.data[i].website
+		lats.push(latitude)
+		logs.push(longitude)
+		names.push(name)
+		descriptions.push(description)
+		images.push(image)
+		urls.push(url)
 	}})
+	function googleMaps(){
+		var script = $('<script>');
+		script.attr("src",'https://maps.googleapis.com/maps/api/js?key=AIzaSyCCFEOkbkpCzlLVqGgBY4uflsf8ZXCPq-w&callback=initMap');
+		script.attr("defer", true)
+	
+	// Attach your callback function to the `window` object
+	window.initMap = function() {
+	var centerLocation = {lat: Number(lati), lng: Number(lon)};
+	var map = new google.maps.Map(
+		  document.getElementById("map"), {zoom: 12, center: centerLocation, gestureHandling: 'cooperative'});
+	var infowindow = new google.maps.InfoWindow();
+	var marker, i;
+	  for (i = 0; i < logs.length; i++) {
+		
+		var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(Number(lats[i]), Number(logs[i])),
+			map: map,
+			title: names[i],
+			
+		  });
+		  google.maps.event.addListener(marker, 'click', (function(marker, i) {
+			return function() {
+			  infowindow.setContent('<div id="content">'+
+			  '<div id="siteNotice">'+
+			  '</div>'+
+			  '<a href="'+urls[i]+'">'+ '<h1 id="firstHeading" class="firstHeading">'+names[i]+'</a></h1>'+
+			  '<div id="bodyContent">'+
+			  '<p>'+descriptions[i]+'</p>'+ 
+			  '<img src ='+images[i]+'>'+
+			  '</div>'+
+			  '</div>')
+			  infowindow.open(map, marker);
+			}
+		  })(marker, i))
+	  }
+	};
+
+	document.head.append(script[0]);
+	}
 
 	function airBnbAPI(){
 		var settings = {
@@ -176,12 +205,8 @@ $.ajax(tripAdvisorSettings).done(function (response) {
 		for (i = 0; i < 5 ; i++) {
 			var AirbnbDivEL = $("<div>")
 			var AirID = response.listings[i].listing.id
-			console.log(response.listings[0].listing.id)
-			console.log(response.listings[0].listing.room_and_property_type)
-			console.log(response.listings[0].pricing_quote.price_string)
 			AirbnbDivEL.addClass("airbnbDiv")
 			AirbnbDivEL.html('<a href='+"https://www.airbnb.com/rooms/"+ AirID +"?adults=1&location="+ cityinput +"&check_in=" + checkin + "&" + "check_out=" + checkout + "&display_extensions%5B%5D=MONTHLY_STAYS&source_impression_id=p3_1596475569_Ye1hL0KJyqYINSTH>" + response.listings[i].listing.room_and_property_type + "-  " + response.listings[i].pricing_quote.price_string + '</a>')
-			console.log(response)
 
 			$("#airBnB-view").append(AirbnbDivEL)
 		}
@@ -190,67 +215,7 @@ $.ajax(tripAdvisorSettings).done(function (response) {
 
 });
 }	
-function hotelsAPI(){
-	var settings = {
-	"async": false,
-	"crossDomain": true,
-	"url": "https://hotels4.p.rapidapi.com/locations/search?locale=en_US&query=" + cityinput,
-	"method": "GET",
-	"headers": {
-		"x-rapidapi-host": "hotels4.p.rapidapi.com",
-		"x-rapidapi-key": "8fc8315f1amsh70aff4e1a3ba621p1d89e4jsn59ed596832c4"
-	}};
-
-	$.ajax(settings).done(function (response) {
-	console.log(response);
-	console.log(response.suggestions[0].entities[0].destinationId)
-	var city = response.suggestions[0].entities[0].destinationId
-
-	var settings2 = {
-	"async": false,
-	"crossDomain": true,
-	"url": "https://hotels4.p.rapidapi.com/properties/list?currency=USD&locale=en_US&sortOrder=PRICE&destinationId=" + city + "&pageNumber=1&checkIn=" + yearfromInput + "-"+ monthfromInput + "-"+ dayfromInput + "&checkOut=" + yearUntilInput +"-"+ monthUntilInput+"-"+ dayUntilInput+"&pageSize=25&adults1=1",
-	"method": "GET",
-	"headers": {
-		"x-rapidapi-host": "hotels4.p.rapidapi.com",
-		"x-rapidapi-key": "8fc8315f1amsh70aff4e1a3ba621p1d89e4jsn59ed596832c4"
-	}
-	}
-
-	$.ajax(settings2).done(function (response) {
-	console.log(response)
-	console.log(response.data.body.searchResults.results)
-	var searchResults = response.data.body.searchResults.results
-		for (var i = 0; i < 5; i++) {
-			var hotelID = searchResults[i].supplierHotelId
-			console.log(checkin)
-			var hotelResult = $("<div>");
-			hotelResult.addClass("hotel");
-			hotelResult.attr("data-name", searchResults[i].name)
-			hotelResult.html("<a href=https://www.expedia.com/h" + hotelID +".Hotel-Information?chkin=" + checkin +'&chkout=' +checkout+">"+searchResults[i].name +'</a>')
-
-			var rateDiv = $("<div>")
-			console.log (searchResults[0].ratePlan.price.current)
-			var rate = searchResults[0].ratePlan.price.current
-			rateDiv.text("Daily Rates: " + rate)
-			
-			var reviewDiv = $("<div>")
-			console.log (searchResults[0].ratePlan.price.current)
-			var rate = searchResults[0].guestReviews.rating
-			reviewDiv.text("Guest Reviews: " + rate +"/10")
-
-
-			hotelResult.append(rateDiv, reviewDiv)
-			
-			$("#hotel-view").append(hotelResult); 
-		}
-	})
-}
-)};
 });
-
-
-
 
 
 displayDates()
