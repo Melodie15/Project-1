@@ -110,7 +110,7 @@ $("#add-cities").on("click", function(info) {
 	"method": "GET",
 	"headers": {
 		"x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
-		"x-rapidapi-key": "59d8cb6935mshcaa86ae032accc0p101a04jsnd4db267252dd"
+		"x-rapidapi-key": "d4d0ed6519msh33b01fff60e8af4p1055fdjsna4a8a8c4be3f"
 	}}
 
 	$.ajax(tripAdvisorSettings).then(function (response) {
@@ -123,7 +123,7 @@ $("#add-cities").on("click", function(info) {
 		"method": "GET",
 		"headers": {
 			"x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
-			"x-rapidapi-key": "59d8cb6935mshcaa86ae032accc0p101a04jsnd4db267252dd"
+			"x-rapidapi-key": "d4d0ed6519msh33b01fff60e8af4p1055fdjsna4a8a8c4be3f"
 		}}
 	$.ajax(AdvisorIDsettings).done(function (response) {
 		console.log(response)
@@ -132,13 +132,13 @@ $("#add-cities").on("click", function(info) {
 		
 		var header = $("<div>")
 		header.text("Attractions: ")
-		header.addClass("header title is-3")
-		$("#attractions-view").append(header)	
-		
+		header.addClass("attractionheader header title is-3")
+		$("#attractions-view").append(header)
+	
 	var toggleAttractionButton =$("<button>")
 	toggleAttractionButton.attr("id", "toggleAttractionButton")
 	toggleAttractionButton.addClass(" button is-small is-primary")
-	$(".header").append(toggleAttractionButton)
+	$(".attractionheader").append(toggleAttractionButton)
 	toggleAttractionButton.text("Show")
 	$("#toggleAttractionButton").click(function(){
 		$(".attractions").toggle("slow", function(){
@@ -150,8 +150,6 @@ $("#add-cities").on("click", function(info) {
 		})
 	
 	})
-
-		
 		for (i = 0; i < 5 ; i++) {
 		var attractionDivEl = $("<div>");
 		attractionDivEl.addClass("attractions card column");
@@ -160,10 +158,10 @@ $("#add-cities").on("click", function(info) {
 		attractionDivEl.attr("data-set",[i]);
 		attractionDivEl.append(div2)
 		var p1 = $("<p>");
-		p1.addClass("title")
+		p1.addClass("title  has-text-centered")
 		p1.text(response.data[i].name)
 		var descriptionDivEl = $("<p>");
-		descriptionDivEl.addClass("description subtitle")
+		descriptionDivEl.addClass("description")
 		descriptionDivEl.text(response.data[i].description)
 		div2.append(p1,descriptionDivEl)
 		var footer = $("<footer>")
@@ -171,7 +169,7 @@ $("#add-cities").on("click", function(info) {
 		attractionDivEl.append(footer)
 		
 		var p1footer = $("<p>")
-		p1footer.addClass("card-footer-item")
+		p1footer.addClass("card-footer-item subtitle")
 		var span1 = $("<span>")
 		span1.html("<a href="+ response.data[i].website+">" +response.data[i].name + " Website" + '</a>')
 		p1footer.append(span1)
@@ -183,13 +181,10 @@ $("#add-cities").on("click", function(info) {
 		var image = response.data[i].photo.images.small.url
 		var imageDivEl = $("<img>")
 		imageDivEl.attr("src", image)
-		imageDivEl.attr("width","200px")
+		imageDivEl.attr("width","150px")
 		span2.append(imageDivEl)
 
 		footer.append(p1footer,p2footer)
-		
-		
-	
 	
 		$("#attractions-view").append(attractionDivEl)	
 
@@ -205,9 +200,10 @@ $("#add-cities").on("click", function(info) {
 		images.push(image)
 		urls.push(url)
 		};
+		$(".attractions").hide()
 	});
-
 	
+
 	function googleMaps(){
 		var script = $('<script>');
 		script.attr("src",'https://maps.googleapis.com/maps/api/js?key=AIzaSyCCFEOkbkpCzlLVqGgBY4uflsf8ZXCPq-w&callback=initMap');
@@ -255,7 +251,7 @@ $("#add-cities").on("click", function(info) {
 		"method": "GET",
 		"headers": {
 			"x-rapidapi-host": "airbnb-com.p.rapidapi.com",
-			"x-rapidapi-key": "59d8cb6935mshcaa86ae032accc0p101a04jsnd4db267252dd"
+			"x-rapidapi-key": "d4d0ed6519msh33b01fff60e8af4p1055fdjsna4a8a8c4be3f"
 		}
 	}
 	
@@ -282,6 +278,11 @@ $("#add-cities").on("click", function(info) {
 	};	
 
 	function hotelsAPI(){
+		var hotelheader = $("<div>")
+		hotelheader.text("Hotels: ")
+		hotelheader.addClass("header title is-3 hotel-header")
+		$("#hotel-view").append(hotelheader)
+
 		var settings = {
 		"async": true,
 		"crossDomain": true,
@@ -289,9 +290,25 @@ $("#add-cities").on("click", function(info) {
 		"method": "GET",
 		"headers": {
 			"x-rapidapi-host": "hotels4.p.rapidapi.com",
-			"x-rapidapi-key": "59d8cb6935mshcaa86ae032accc0p101a04jsnd4db267252dd"
+			"x-rapidapi-key": "d4d0ed6519msh33b01fff60e8af4p1055fdjsna4a8a8c4be3f"
 		}};
 		$.ajax(settings).done(function (response) {
+
+	var toggleHotelButton =$("<button>")
+	toggleHotelButton.attr("id", "toggleHotelButton")
+	toggleHotelButton.addClass(" button is-small is-primary")
+	$(".hotel-header").append(toggleHotelButton)
+	toggleHotelButton.text("Show")
+	$("#toggleHotelButton").click(function(){
+		$(".hotel-div").toggle("slow", function(){
+			if($(this).is(":visible")){
+				$("#toggleHotelButton").text("Hide");
+			} else {
+				$("#toggleHotelButton").text("Show")
+			}
+		})
+	
+	})	
 		console.log(response);
 		console.log(response.suggestions[0].entities[0].destinationId)
 		var city = response.suggestions[0].entities[0].destinationId
@@ -302,7 +319,7 @@ $("#add-cities").on("click", function(info) {
 		"method": "GET",
 		"headers": {
 			"x-rapidapi-host": "hotels4.p.rapidapi.com",
-			"x-rapidapi-key": "8fc8315f1amsh70aff4e1a3ba621p1d89e4jsn59ed596832c4"
+			"x-rapidapi-key": "d4d0ed6519msh33b01fff60e8af4p1055fdjsna4a8a8c4be3f"
 		}
 		}
 		$.ajax(settings2).done(function (response) {
@@ -311,24 +328,34 @@ $("#add-cities").on("click", function(info) {
 		var searchResults = response.data.body.searchResults.results
 			for (var i = 0; i < 5; i++) {
 				var hotelID = searchResults[i].supplierHotelId
-				console.log(checkin)
+				
 				var hotelResult = $("<div>");
 				hotelResult.addClass("hotel");
 				hotelResult.attr("data-name", searchResults[i].name)
 				hotelResult.html("<a href=https://www.expedia.com/h" + hotelID +".Hotel-Information?chkin=" + checkin +'&chkout=' +checkout+">"+searchResults[i].name +'</a>')
 				var rateDiv = $("<div>")
 				console.log (searchResults[0].ratePlan.price.current)
-				var rate = searchResults[0].ratePlan.price.current
+				var rate = searchResults[i].ratePlan.price.current
 				rateDiv.text("Daily Rates: " + rate)
 				
+				var divImg = $("<div>")
+				divImg.addClass("level-left hotel-div")
+				var image = searchResults[i].thumbnailUrl
+				var imageDivEl = $("<img>")
+				imageDivEl.attr("src", image)
+				imageDivEl.attr("width","150px")
+				
+	
+
 				var reviewDiv = $("<div>")
 				console.log (searchResults[0].ratePlan.price.current)
 				var rate = searchResults[0].guestReviews.rating
 				reviewDiv.text("Guest Reviews: " + rate +"/10")
 				hotelResult.append(rateDiv, reviewDiv)
-				
-				$("#hotel-view").append(hotelResult); 
+				divImg.append(imageDivEl, hotelResult)
+				$("#hotel-view").append(divImg); 
 			}
+			$(".hotel-div").hide()
 		})
 	}
 	)};

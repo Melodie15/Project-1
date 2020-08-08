@@ -7,10 +7,12 @@
 
 .header{
     font-family: 'Recursive', sans-serif;
+    padding: 0px;
 }
 
 #toggleFormButton,
-#toggleAttractionButton {
+#toggleAttractionButton,
+#toggleHotelButton {
     float: right;
     margin-top: 0.5em;
 }
@@ -18,11 +20,13 @@
 select {
     float: left;
 }
+.subtitle{
+    font-size: 25px;
+}
 
 #city-input{
     width: 80%
 }
-
 
 
 html,
