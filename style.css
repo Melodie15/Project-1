@@ -1,5 +1,5 @@
 *{
-    background-color: whitesmoke;
+    background-color: rgb(247, 247, 247);
 }
 
 #map {
@@ -45,13 +45,13 @@ body {
 
 .hero {
     border: solid 5px rgb(41, 224, 200);
-    background-color: whitesmoke;
+    background-color: rgb(247, 247, 247);
     border-radius: 5px;
 }
 
 .attractions.card.column {
     border: solid 5px rgb(41, 224, 200);
-    background-color: whitesmoke;
+    background-color: rgb(247, 247, 247);
     border-radius: 5px;
     margin-bottom:10px;
    
@@ -62,7 +62,7 @@ body {
     margin-top: 10px;
     margin-bottom: 10px;
     border: solid 5px rgb(41, 224, 200);
-    background-color: whitesmoke;
+    background-color: rgb(247, 247, 247);
     border-radius: 5px;
     margin-bottom:10px;
 }
