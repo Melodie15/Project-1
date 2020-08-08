@@ -1,3 +1,6 @@
+*{
+    background-color: rgb(247, 247, 247);
+}
 
 #map {
     height: 30%;
@@ -6,6 +9,10 @@
 }
 
 .header{
+    font-family: 'Catamaran', sans-serif;
+    color:grey;
+    padding: 0px;
+    
     font-family: 'Recursive', sans-serif;
     padding: 0px;
 }
@@ -36,4 +43,38 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
+}
+
+.hero {
+    border: solid 5px rgb(41, 224, 200);
+    background-color: rgb(247, 247, 247);
+    border-radius: 5px;
+}
+
+.attractions.card.column {
+    border: solid 5px rgb(41, 224, 200);
+    background-color: rgb(247, 247, 247);
+    border-radius: 5px;
+    margin-bottom:10px;
+   
+    
+}
+
+.hotel-div {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: solid 5px rgb(41, 224, 200);
+    background-color: rgb(247, 247, 247);
+    border-radius: 5px;
+    margin-bottom:10px;
+}
+
+
+.header {
+    margin-top: 50px;
+   
+}
+
+#airBnB-view {
+    font-family: 'Catamaran', sans-serif;
 }
