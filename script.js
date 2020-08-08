@@ -89,7 +89,7 @@ $("#add-cities").on("click", function(info) {
 	$(".search").toggle("slow")
 	var toggleFormButton =$("<button>")
 	toggleFormButton.attr("id", "toggleFormButton")
-	toggleFormButton.addClass("button is-small is-primary is-rounded")
+	toggleFormButton.addClass("button is-small is-primary")
 	$("#searchDiv").empty()
 	$("#searchDiv").prepend(toggleFormButton)
 	toggleFormButton.text("Search Form")
@@ -132,12 +132,12 @@ $("#add-cities").on("click", function(info) {
 		
 		var header = $("<div>")
 		header.text("Attractions")
-		header.addClass("attractionheader header title is-3 has-text-centered")
+		header.addClass("attractionheader header has-text-centered title is-3")
 		$("#attractions-view").append(header)
 	
 	var toggleAttractionButton =$("<button>")
 	toggleAttractionButton.attr("id", "toggleAttractionButton")
-	toggleAttractionButton.addClass(" button is-small is-primary is-rounded")
+	toggleAttractionButton.addClass(" button is-small is-primary")
 	$(".attractionheader").append(toggleAttractionButton)
 	toggleAttractionButton.text("Show")
 	$("#toggleAttractionButton").click(function(){
@@ -212,10 +212,30 @@ $("#add-cities").on("click", function(info) {
 			"x-rapidapi-key": "a12eed2741mshbf906324d670b9ep15278cjsn15bd4d6a3e8b"
 		}
 	}
+
+		var airheader = $("<div>")
+		airheader.text("AirBnb")
+		airheader.addClass("airheader header has-text-centered title is-3")
+		$("#airBnB-view").append(airheader)
+
+	var toggleAirbnbButton =$("<button>")
+	toggleAirbnbButton.attr("id", "toggleAirbnbButton")
+	toggleAirbnbButton.addClass(" button is-small is-primary")
+	$(".airheader").append(toggleAirbnbButton)
+	toggleAirbnbButton.text("Show")
+	$("#toggleAirbnbButton").click(function(){
+		$(".airbnbDiv").toggle("slow", function(){
+			if($(this).is(":visible")){
+				$("#toggleAirbnbButton").text("Hide");
+			} else {
+				$("#toggleAirbnbButton").text("Show")
+			}
+		})
+	
+	})
 	
 	$.ajax(settings).done(function (response) {
 		console.log(response)
-		$("#airBnB-view").text("AirBnb:")
 		for (i = 0; i < 5 ; i++) {
 			var AirbnbDivEL = $("<div>")
 			var AirID = response.listings[i].listing.id
@@ -243,11 +263,11 @@ $("#add-cities").on("click", function(info) {
 			images.push(image)
 
 			googleMaps()
-			
+			$(".airbnbDiv").hide()
 		}
 	});
 		};
-
+		
 	function googleMaps(){
 		var script = $('<script>');
 		script.attr("src",'https://maps.googleapis.com/maps/api/js?key=AIzaSyCCFEOkbkpCzlLVqGgBY4uflsf8ZXCPq-w&callback=initMap');
@@ -288,44 +308,13 @@ $("#add-cities").on("click", function(info) {
 	document.head.prepend(script[0]);
 		};
 
-
-	function airBnbAPI(){
-		var settings = {
-		"crossDomain": true,
-		"url": "https://airbnb-com.p.rapidapi.com/listings/nearby/"+lati+"/"+lon+"?min_bathrooms=0&check_out=" + checkout+"&hotel_room=true&max_guests=1&check_in=" + checkin + "&private_room=true&min_bedrooms=0&offset=0&entire_home=true&min_price=0&max_price=5000&min_beds=0&radius=5&shared_room=true",
-		"method": "GET",
-		"headers": {
-			"x-rapidapi-host": "airbnb-com.p.rapidapi.com",
-			"x-rapidapi-key": "d4d0ed6519msh33b01fff60e8af4p1055fdjsna4a8a8c4be3f"
-		}
-	}
-	
-	$.ajax(settings).done(function (response) {
-		console.log(response)
-		$("#airBnB-view").text("AirBnb")
-		for (i = 0; i < 5 ; i++) {
-			var AirbnbDivEL = $("<div>")
-			var AirID = response.listings[i].listing.id
-			AirbnbDivEL.addClass("airbnbDiv")
-			AirbnbDivEL.html('<a href='+"https://www.airbnb.com/rooms/"+ AirID +"?adults=1&location="+ cityinput +"&check_in=" + checkin + "&" + "check_out=" + checkout + "&display_extensions%5B%5D=MONTHLY_STAYS&source_impression_id=p3_1596475569_Ye1hL0KJyqYINSTH>" + response.listings[i].listing.room_and_property_type + "-  " + response.listings[i].pricing_quote.price_string + '</a>')
-			$("#airBnB-view").append(AirbnbDivEL)
-			var image = response.listings[i].listing.picture_url
-			var imageDivEl = $("<img>")
-			imageDivEl.addClass("airBnb-image")
-			imageDivEl.attr("src", image)
-			imageDivEl.attr("width","20%")
-			AirbnbDivEL.prepend(imageDivEl)
-		}
-	});
-		};
-
 	});
 	};	
 
 	function hotelsAPI(){
 		var hotelheader = $("<div>")
-		hotelheader.text("Hotels")
-		hotelheader.addClass("header title is-3 hotel-header has-text-centered")
+		hotelheader.text("Hotels ")
+		hotelheader.addClass("header title is-3 has-text-centered hotel-header")
 		$("#hotel-view").append(hotelheader)
 
 		var settings = {
@@ -341,7 +330,7 @@ $("#add-cities").on("click", function(info) {
 
 	var toggleHotelButton =$("<button>")
 	toggleHotelButton.attr("id", "toggleHotelButton")
-	toggleHotelButton.addClass(" button is-small is-primary is-rounded")
+	toggleHotelButton.addClass(" button is-small is-primary")
 	$(".hotel-header").append(toggleHotelButton)
 	toggleHotelButton.text("Show")
 	$("#toggleHotelButton").click(function(){
