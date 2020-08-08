@@ -1,4 +1,3 @@
-
 function displayDates() {
 	var dayfromselector = $("<select>")
 	dayfromselector.addClass("dayfromselector")
@@ -9,7 +8,7 @@ function displayDates() {
 		// Added a data-attribute
 		dayfromOption.attr("day", [i] );
 		if ( i < 10 ) {
-			dayfromOption.text("0"+jQuery.parseJSON(i)) 
+			dayfromOption.text("0"+$.parseJSON(i)) 
         } 
 		else {dayfromOption.text(i + 1)}
 
@@ -39,7 +38,7 @@ function displayDates() {
 		// Added a data-attribute
 		dayUntilOption.attr("day", [i] );
 		if ( i < 10 ) {
-			dayUntilOption.text("0"+jQuery.parseJSON(i)) 
+			dayUntilOption.text("0"+$.parseJSON(i)) 
         } 
 		else {dayUntilOption.text(i + 1)}
 
@@ -83,11 +82,28 @@ $("#add-cities").on("click", function(info) {
 	var yearUntilInput =$(".yearUntilSelector").val()
 	var checkin = + yearfromInput + "-"+ monthfromInput + "-"+ dayfromInput 
 	var checkout = + yearUntilInput +"-"+ monthUntilInput+"-"+ dayUntilInput
+
 	tripadvisor()
+	hotelsAPI()
 
-
-
-function tripadvisor(){ 
+	$(".search").toggle("slow")
+	var toggleFormButton =$("<button>")
+	toggleFormButton.attr("id", "toggleFormButton")
+	toggleFormButton.addClass("button is-small is-primary")
+	$("#searchDiv").empty()
+	$("#searchDiv").prepend(toggleFormButton)
+	toggleFormButton.text("Search Form")
+	$("#toggleFormButton").click(function(){
+		$(".search").toggle("slow", function(){
+			if($(this).is(":visible")){
+				$("#toggleFormButton").text("Hide Search");
+			} else {
+				$("#toggleFormButton").text("Search Another City")
+			};
+		});
+	});
+	
+	function tripadvisor(){ 
 	var tripAdvisorSettings = {
 	"crossDomain": true,
 	"url": "https://tripadvisor1.p.rapidapi.com/locations/search?location_id=10&limit=30&sort=relevance&offset=0&lang=en_US&currency=USD&units=km&query=" + cityinput,
@@ -95,10 +111,9 @@ function tripadvisor(){
 	"headers": {
 		"x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
 		"x-rapidapi-key": "59d8cb6935mshcaa86ae032accc0p101a04jsnd4db267252dd"
-	}
-}
-$("#attractions-view").text("Attractions: ")
-$.ajax(tripAdvisorSettings).then(function (response) {
+	}}
+
+	$.ajax(tripAdvisorSettings).then(function (response) {
 	var tripAdvisorID = response.data[0].result_object.location_id
 	var lati = response.data[0].result_object.latitude
 	var lon = response.data[0].result_object.longitude
@@ -109,30 +124,75 @@ $.ajax(tripAdvisorSettings).then(function (response) {
 		"headers": {
 			"x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
 			"x-rapidapi-key": "59d8cb6935mshcaa86ae032accc0p101a04jsnd4db267252dd"
-		}
-	}
-	
+		}}
 	$.ajax(AdvisorIDsettings).done(function (response) {
 		console.log(response)
 		airBnbAPI()
 		googleMaps()
 		
+		var header = $("<div>")
+		header.text("Attractions: ")
+		header.addClass("header title is-3")
+		$("#attractions-view").append(header)	
+		
+	var toggleAttractionButton =$("<button>")
+	toggleAttractionButton.attr("id", "toggleAttractionButton")
+	toggleAttractionButton.addClass(" button is-small is-primary")
+	$(".header").append(toggleAttractionButton)
+	toggleAttractionButton.text("Show")
+	$("#toggleAttractionButton").click(function(){
+		$(".attractions").toggle("slow", function(){
+			if($(this).is(":visible")){
+				$("#toggleAttractionButton").text("Hide");
+			} else {
+				$("#toggleAttractionButton").text("Show")
+			}
+		})
+	
+	})
+
 		
 		for (i = 0; i < 5 ; i++) {
 		var attractionDivEl = $("<div>");
-		attractionDivEl.addClass("attractions");
+		attractionDivEl.addClass("attractions card column");
+		var div2 = $("<div>");
+		div2.addClass("card-content")
 		attractionDivEl.attr("data-set",[i]);
-		attractionDivEl.html("<a href="+ response.data[i].website+">" +response.data[i].name +'</a>');
-		var descriptionDivEl = $("<div>");
-		descriptionDivEl.addClass("description")
+		attractionDivEl.append(div2)
+		var p1 = $("<p>");
+		p1.addClass("title")
+		p1.text(response.data[i].name)
+		var descriptionDivEl = $("<p>");
+		descriptionDivEl.addClass("description subtitle")
 		descriptionDivEl.text(response.data[i].description)
+		div2.append(p1,descriptionDivEl)
+		var footer = $("<footer>")
+		footer.addClass("card-footer")
+		attractionDivEl.append(footer)
 		
+		var p1footer = $("<p>")
+		p1footer.addClass("card-footer-item")
+		var span1 = $("<span>")
+		span1.html("<a href="+ response.data[i].website+">" +response.data[i].name + " Website" + '</a>')
+		p1footer.append(span1)
+
+		var p2footer = $("<p>")
+		p2footer.addClass("card-footer-item")
+		var span2 = $("<span>")
+		p2footer.append(span2)
 		var image = response.data[i].photo.images.small.url
 		var imageDivEl = $("<img>")
 		imageDivEl.attr("src", image)
-		imageDivEl.attr("width","20%")
-		attractionDivEl.append(descriptionDivEl,imageDivEl )
+		imageDivEl.attr("width","200px")
+		span2.append(imageDivEl)
+
+		footer.append(p1footer,p2footer)
+		
+		
+	
+	
 		$("#attractions-view").append(attractionDivEl)	
+
 		var latitude = response.data[i].latitude
 		var longitude = response.data[i].longitude
 		var name = response.data[i].name
@@ -144,7 +204,10 @@ $.ajax(tripAdvisorSettings).then(function (response) {
 		descriptions.push(description)
 		images.push(image)
 		urls.push(url)
-	}})
+		};
+	});
+
+	
 	function googleMaps(){
 		var script = $('<script>');
 		script.attr("src",'https://maps.googleapis.com/maps/api/js?key=AIzaSyCCFEOkbkpCzlLVqGgBY4uflsf8ZXCPq-w&callback=initMap');
@@ -183,7 +246,7 @@ $.ajax(tripAdvisorSettings).then(function (response) {
 	};
 
 	document.head.prepend(script[0]);
-	}
+		};
 
 	function airBnbAPI(){
 		var settings = {
@@ -213,11 +276,67 @@ $.ajax(tripAdvisorSettings).then(function (response) {
 			AirbnbDivEL.prepend(imageDivEl)
 		}
 	});
-	};
+		};
+
+	});
+	};	
+
+	function hotelsAPI(){
+		var settings = {
+		"async": true,
+		"crossDomain": true,
+		"url": "https://hotels4.p.rapidapi.com/locations/search?locale=en_US&query=" + cityinput,
+		"method": "GET",
+		"headers": {
+			"x-rapidapi-host": "hotels4.p.rapidapi.com",
+			"x-rapidapi-key": "59d8cb6935mshcaa86ae032accc0p101a04jsnd4db267252dd"
+		}};
+		$.ajax(settings).done(function (response) {
+		console.log(response);
+		console.log(response.suggestions[0].entities[0].destinationId)
+		var city = response.suggestions[0].entities[0].destinationId
+		var settings2 = {
+		"async": true,
+		"crossDomain": true,
+		"url": "https://hotels4.p.rapidapi.com/properties/list?currency=USD&locale=en_US&sortOrder=PRICE&destinationId=" + city + "&pageNumber=1&checkIn=" + yearfromInput + "-"+ monthfromInput + "-"+ dayfromInput + "&checkOut=" + yearUntilInput +"-"+ monthUntilInput+"-"+ dayUntilInput+"&pageSize=25&adults1=1",
+		"method": "GET",
+		"headers": {
+			"x-rapidapi-host": "hotels4.p.rapidapi.com",
+			"x-rapidapi-key": "8fc8315f1amsh70aff4e1a3ba621p1d89e4jsn59ed596832c4"
+		}
+		}
+		$.ajax(settings2).done(function (response) {
+		console.log(response)
+		console.log(response.data.body.searchResults.results)
+		var searchResults = response.data.body.searchResults.results
+			for (var i = 0; i < 5; i++) {
+				var hotelID = searchResults[i].supplierHotelId
+				console.log(checkin)
+				var hotelResult = $("<div>");
+				hotelResult.addClass("hotel");
+				hotelResult.attr("data-name", searchResults[i].name)
+				hotelResult.html("<a href=https://www.expedia.com/h" + hotelID +".Hotel-Information?chkin=" + checkin +'&chkout=' +checkout+">"+searchResults[i].name +'</a>')
+				var rateDiv = $("<div>")
+				console.log (searchResults[0].ratePlan.price.current)
+				var rate = searchResults[0].ratePlan.price.current
+				rateDiv.text("Daily Rates: " + rate)
+				
+				var reviewDiv = $("<div>")
+				console.log (searchResults[0].ratePlan.price.current)
+				var rate = searchResults[0].guestReviews.rating
+				reviewDiv.text("Guest Reviews: " + rate +"/10")
+				hotelResult.append(rateDiv, reviewDiv)
+				
+				$("#hotel-view").append(hotelResult); 
+			}
+		})
+	}
+	)};
 
 });
-}	
-});
+
 
 
 displayDates()
+
+
