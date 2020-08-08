@@ -131,8 +131,8 @@ $("#add-cities").on("click", function(info) {
 		
 		
 		var header = $("<div>")
-		header.text("Attractions: ")
-		header.addClass("attractionheader header title is-3")
+		header.text("Attractions")
+		header.addClass("attractionheader header has-text-centered title is-3")
 		$("#attractions-view").append(header)
 	
 	var toggleAttractionButton =$("<button>")
@@ -212,10 +212,30 @@ $("#add-cities").on("click", function(info) {
 			"x-rapidapi-key": "a12eed2741mshbf906324d670b9ep15278cjsn15bd4d6a3e8b"
 		}
 	}
+
+		var airheader = $("<div>")
+		airheader.text("AirBnb")
+		airheader.addClass("airheader header has-text-centered title is-3")
+		$("#airBnB-view").append(airheader)
+
+	var toggleAirbnbButton =$("<button>")
+	toggleAirbnbButton.attr("id", "toggleAirbnbButton")
+	toggleAirbnbButton.addClass(" button is-small is-primary")
+	$(".airheader").append(toggleAirbnbButton)
+	toggleAirbnbButton.text("Show")
+	$("#toggleAirbnbButton").click(function(){
+		$(".airbnbDiv").toggle("slow", function(){
+			if($(this).is(":visible")){
+				$("#toggleAirbnbButton").text("Hide");
+			} else {
+				$("#toggleAirbnbButton").text("Show")
+			}
+		})
+	
+	})
 	
 	$.ajax(settings).done(function (response) {
 		console.log(response)
-		$("#airBnB-view").text("AirBnb:")
 		for (i = 0; i < 5 ; i++) {
 			var AirbnbDivEL = $("<div>")
 			var AirID = response.listings[i].listing.id
@@ -243,11 +263,11 @@ $("#add-cities").on("click", function(info) {
 			images.push(image)
 
 			googleMaps()
-			
+			$(".airbnbDiv").hide()
 		}
 	});
 		};
-
+		
 	function googleMaps(){
 		var script = $('<script>');
 		script.attr("src",'https://maps.googleapis.com/maps/api/js?key=AIzaSyCCFEOkbkpCzlLVqGgBY4uflsf8ZXCPq-w&callback=initMap');
@@ -293,8 +313,8 @@ $("#add-cities").on("click", function(info) {
 
 	function hotelsAPI(){
 		var hotelheader = $("<div>")
-		hotelheader.text("Hotels: ")
-		hotelheader.addClass("header title is-3 hotel-header")
+		hotelheader.text("Hotels ")
+		hotelheader.addClass("header title is-3 has-text-centered hotel-header")
 		$("#hotel-view").append(hotelheader)
 
 		var settings = {
@@ -393,5 +413,3 @@ $("#add-cities").on("click", function(info) {
 
 
 displayDates()
-
-
