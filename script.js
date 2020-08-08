@@ -257,7 +257,25 @@ $("#add-cities").on("click", function(info) {
 	
 	$.ajax(settings).done(function (response) {
 		console.log(response)
-		$("#airBnB-view").text("AirBnb:")
+		var airBnbheader = $("<div>")
+        airBnbheader.text("AirBnbs ")
+        airBnbheader.addClass("header title is-3 has-text-centered airBnB-header")
+        $("#airBnB-view").append(airBnbheader)
+		var toggleAirBnBButton =$("<button>")
+		toggleAirBnBButton.attr("id", "toggleAirBnBButton")
+		toggleAirBnBButton.addClass(" button is-small is-primary")
+		$(".airBnB-header").append(toggleAirBnBButton)
+		toggleAirBnBButton.text("Show")
+		$("#toggleAirBnBButton").click(function(){
+			$(".airbnbDiv").toggle("slow", function(){
+				if($(this).is(":visible")){
+					$("#toggleAirBnBButton").text("Hide");
+				} else {
+					$("#toggleAirBnBButton").text("Show")
+				};
+			});
+		});
+	
 		for (i = 0; i < 5 ; i++) {
 			var AirbnbDivEL = $("<div>")
 			var AirID = response.listings[i].listing.id
