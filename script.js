@@ -308,6 +308,62 @@ $("#add-cities").on("click", function(info) {
 	document.head.prepend(script[0]);
 		};
 
+<<<<<<< HEAD
+=======
+
+	function airBnbAPI(){
+		var settings = {
+		"crossDomain": true,
+		"url": "https://airbnb-com.p.rapidapi.com/listings/nearby/"+lati+"/"+lon+"?min_bathrooms=0&check_out=" + checkout+"&hotel_room=true&max_guests=1&check_in=" + checkin + "&private_room=true&min_bedrooms=0&offset=0&entire_home=true&min_price=0&max_price=5000&min_beds=0&radius=5&shared_room=true",
+		"method": "GET",
+		"headers": {
+			"x-rapidapi-host": "airbnb-com.p.rapidapi.com",
+			"x-rapidapi-key": "d4d0ed6519msh33b01fff60e8af4p1055fdjsna4a8a8c4be3f"
+		}
+	}
+	
+	$.ajax(settings).done(function (response) {
+		console.log(response)
+
+		var airBnbheader = $("<div>")
+        airBnbheader.text("AirBnbs ")
+        airBnbheader.addClass("header title is-3 has-text-centered airBnB-header")
+        $("#airBnB-view").append(airBnbheader)
+		var toggleAirBnBButton =$("<button>")
+		toggleAirBnBButton.attr("id", "toggleAirBnBButton")
+		toggleAirBnBButton.addClass(" button is-small is-primary")
+		$(".airBnB-header").append(toggleAirBnBButton)
+		toggleAirBnBButton.text("Show")
+		$("#toggleAirBnBButton").click(function(){
+			$(".airbnbDiv").toggle("slow", function(){
+				if($(this).is(":visible")){
+					$("#toggleAirBnBButton").text("Hide");
+				} else {
+					$("#toggleAirBnBButton").text("Show")
+				};
+			});
+		});
+	
+
+		$("#airBnB-view").text("AirBnb")
+
+		for (i = 0; i < 5 ; i++) {
+			var AirbnbDivEL = $("<div>")
+			var AirID = response.listings[i].listing.id
+			AirbnbDivEL.addClass("airbnbDiv")
+			AirbnbDivEL.html('<a href='+"https://www.airbnb.com/rooms/"+ AirID +"?adults=1&location="+ cityinput +"&check_in=" + checkin + "&" + "check_out=" + checkout + "&display_extensions%5B%5D=MONTHLY_STAYS&source_impression_id=p3_1596475569_Ye1hL0KJyqYINSTH>" + response.listings[i].listing.room_and_property_type + "-  " + response.listings[i].pricing_quote.price_string + '</a>')
+			$("#airBnB-view").append(AirbnbDivEL)
+			var image = response.listings[i].listing.picture_url
+			var imageDivEl = $("<img>")
+			imageDivEl.addClass("airBnb-image")
+			imageDivEl.attr("src", image)
+			imageDivEl.attr("width","20%")
+			AirbnbDivEL.prepend(imageDivEl)
+		}
+	});
+		};
+
+>>>>>>> d3d4883d77fefd5cdb931a89bd368d4b5a048a8a
 	});
 	};	
 
