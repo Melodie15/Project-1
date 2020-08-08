@@ -5,166 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.0/css/bulma.min.css" />
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Catamaran:wght@900&display=swap" rel="stylesheet">
     <title>Travel Genie</title>
 
 </head>
 <body>
 
-  <navbar><div class="container is-fluid is-primary">
-    <div class="notification" id="divider">
-
-    
-    
-      
-    </div>
-  </div></navbar>  
-
-    
-
-
   <section class="hero">
     <div class="hero-body">
-      <div class="container">
+      <div class="container has-text-centered">
         <img src="./tg-icon4.PNG" width="300" height="300">
-        <br>
-        <br>
-        <h3 class="title">
-            
-          Taking a trip, but not sure where to stay or what to do?
-        </h1>
-        <h3 class="subtitle">
-          Let us help!
-        </h2>
-
-
       </div>
     </div>
   </section>
-
   
-
-  
-
-<br>
-<br>
-
-<body>
-
     <div class="container">
-        <div class="notification">
-            <h1 class="title">Where are you headed?</h1>
-            <form id="city-form">
+      <div id = "searchDiv" class ="level-right"></div>
+      <div class="notification search"> 
+        <h1 class="title has-text-centered">Where are you headed?</h1>
+        <form id="city-form" class = "has-text-centered">
                 <label for="city-input"></label><br>
                 <input class="input is-rounded is-primary" id="city-input" type="text" placeholder="City">
-                <button class="button is-rounded is-primary" id="add-cities" type="submit">SEARCH!</button>
-                
-            </form>
-
-
-            
-            <div class="select is-rounded is-small is-primary">
-                <form id="From-form">
-                    <label for="from-selector">Staying from:</label><br>
-                    <select name="from-months" id="From-months">
-                        <option value="01">January</option>
-                        <option value="02">Febuary</option>
-                        <option value="03">March</option>
-                        <option value="04">April</option>
-                        <option value="05">May</option>
-                        <option value="06">June</option>
-                        <option value="07">July</option>
-                        <option value="08">August</option>
-                        <option value="09">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
-                    </select> 
-                </form>
-            </div>  
-    
-            <div class="select is-rounded is-small is-primary">
-                <form id="until-form">
-                <form id="until-form">
-                    <label for="stay-until">Stay until:</label><br>
-                    <select name="until-month" id="until-month">
-                        <option value="01">January</option>
-                        <option value="02">Febuary</option>
-                        <option value="03">March</option>
-                        <option value="04">April</option>
-                        <option value="05">May</option>
-                        <option value="06">June</option>
-                        <option value="07">July</option>
-                        <option value="08">August</option>
-                        <option value="09">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
-                      </select>  
-                </form>
-            </form></div>
-            
-    
-    
-        </div>
-      </div>
-    
-        
-          
-    </div>
-
-    <br>
-    <br>
-    <br>
-    <br>
-
-    <div class="container">
-        <div class="notification">
-            <div class = "col-md-9">
-                <div id="hotel-view">
-                </div>
-                <div id="attractions-view">
-                </div>
-                <div id="event-view">
-               </div>
-               <div id="airBnB-view">
-               </div>
-                </div>
-               </div>        
-               </section> 
-               
-               </div>
-        </div>
-      </div>
-      <div id="map"></div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="script.js"></script>
-  </body>
-
-  <!-- -------------------------------- -->
-  <!-- <section>
-    <div class = "row">
-      <div class = "col-md-3"> -->
-
-        <!-- <form id="From-form">
-            <label for="from-selector">Staying from:</label><br>
-            <select name="from-months" id="From-months">
-                <option value="01">January</option>
-                <option value="02">Febuary</option>
-                <option value="03">March</option>
-                <option value="04">April</option>
-                <option value="05">May</option>
-                <option value="06">June</option>
-                <option value="07">July</option>
-                <option value="08">August</option>
-                <option value="09">September</option>
-                <option value="10">October</option>
-                <option value="11">November</option>
-                <option value="12">December</option>
-              </select> 
+                <button class="button is-rounded is-primary" id="add-cities" type="submit">Search</button>
         </form>
-        <form id="until-form">
-            <form id="until-form">
+
+        <div class = "is-full has-text-centered ">
+            <form id="From-form"  class="select is-rounded is-small is-primary">
+                <label for="from-selector">Staying from:</label><br>
+                <select name="from-months" id="From-months">
+                    <option value="01">January</option>
+                    <option value="02">Febuary</option>
+                    <option value="03">March</option>
+                    <option value="04">April</option>
+                    <option value="05">May</option>
+                    <option value="06">June</option>
+                    <option value="07">July</option>
+                    <option value="08">August</option>
+                    <option value="09">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select> 
+            </form>
+      
+            <form id="until-form"class="select is-rounded is-small is-primary">
                 <label for="stay-until">Stay until:</label><br>
                 <select name="until-month" id="until-month">
                     <option value="01">January</option>
@@ -180,25 +64,28 @@
                     <option value="11">November</option>
                     <option value="12">December</option>
                   </select>  
-            </form>  -->
-      <!-- </div>
-     <div class = "col-md-9">
-      <div id="hotel-view">
-      </div>
-      <div id="attractions-view">
-      </div>
-      <div id="event-view">
+                </form>
+        </div>
+      </div>    
     </div>
-    <div id="airBnB-view">
+
+  
+  <div class="container">
+    <div class="notification">
+        <div id="hotel-view">
+        </div>
+        <div id="attractions-view">
+        </div>
+        <div id="event-view">
+        </div>
+        <div id="airBnB-view">
+        </div>
     </div>
-      </div>
-    </div>        
-  </section> 
-  <div id="map"></div>
   </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="script.js"></script> -->
-</body>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="script.js"></script>
+  <div id="map"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="script.js"></script>
+  </body>
+
 </html>
