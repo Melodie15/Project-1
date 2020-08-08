@@ -19,7 +19,8 @@
 
 #toggleFormButton,
 #toggleAttractionButton,
-#toggleHotelButton {
+#toggleHotelButton, 
+#toggleAirBnBButton {
     float: right;
     margin-top: 0.5em;
 }
