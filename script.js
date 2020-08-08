@@ -89,7 +89,7 @@ $("#add-cities").on("click", function(info) {
 	$(".search").toggle("slow")
 	var toggleFormButton =$("<button>")
 	toggleFormButton.attr("id", "toggleFormButton")
-	toggleFormButton.addClass("button is-small is-primary")
+	toggleFormButton.addClass("button is-small is-primary is-rounded")
 	$("#searchDiv").empty()
 	$("#searchDiv").prepend(toggleFormButton)
 	toggleFormButton.text("Search Form")
@@ -110,7 +110,7 @@ $("#add-cities").on("click", function(info) {
 	"method": "GET",
 	"headers": {
 		"x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
-		"x-rapidapi-key": "d4d0ed6519msh33b01fff60e8af4p1055fdjsna4a8a8c4be3f"
+		"x-rapidapi-key": "a12eed2741mshbf906324d670b9ep15278cjsn15bd4d6a3e8b"
 	}}
 
 	$.ajax(tripAdvisorSettings).then(function (response) {
@@ -123,21 +123,21 @@ $("#add-cities").on("click", function(info) {
 		"method": "GET",
 		"headers": {
 			"x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
-			"x-rapidapi-key": "d4d0ed6519msh33b01fff60e8af4p1055fdjsna4a8a8c4be3f"
+			"x-rapidapi-key": "a12eed2741mshbf906324d670b9ep15278cjsn15bd4d6a3e8b"
 		}}
 	$.ajax(AdvisorIDsettings).done(function (response) {
 		console.log(response)
 		airBnbAPI()
-		googleMaps()
+		
 		
 		var header = $("<div>")
-		header.text("Attractions: ")
-		header.addClass("attractionheader header title is-3")
+		header.text("Attractions")
+		header.addClass("attractionheader header title is-3 has-text-centered")
 		$("#attractions-view").append(header)
 	
 	var toggleAttractionButton =$("<button>")
 	toggleAttractionButton.attr("id", "toggleAttractionButton")
-	toggleAttractionButton.addClass(" button is-small is-primary")
+	toggleAttractionButton.addClass(" button is-small is-primary is-rounded")
 	$(".attractionheader").append(toggleAttractionButton)
 	toggleAttractionButton.text("Show")
 	$("#toggleAttractionButton").click(function(){
@@ -202,7 +202,51 @@ $("#add-cities").on("click", function(info) {
 		};
 		$(".attractions").hide()
 	});
+	function airBnbAPI(){
+		var settings = {
+		"crossDomain": true,
+		"url": "https://airbnb-com.p.rapidapi.com/listings/nearby/"+lati+"/"+lon+"?min_bathrooms=0&check_out=" + checkout+"&hotel_room=true&max_guests=1&check_in=" + checkin + "&private_room=true&min_bedrooms=0&offset=0&entire_home=true&min_price=0&max_price=5000&min_beds=0&radius=5&shared_room=true",
+		"method": "GET",
+		"headers": {
+			"x-rapidapi-host": "airbnb-com.p.rapidapi.com",
+			"x-rapidapi-key": "a12eed2741mshbf906324d670b9ep15278cjsn15bd4d6a3e8b"
+		}
+	}
 	
+	$.ajax(settings).done(function (response) {
+		console.log(response)
+		$("#airBnB-view").text("AirBnb:")
+		for (i = 0; i < 5 ; i++) {
+			var AirbnbDivEL = $("<div>")
+			var AirID = response.listings[i].listing.id
+			AirbnbDivEL.addClass("airbnbDiv")
+			AirbnbDivEL.html('<a href='+"https://www.airbnb.com/rooms/"+ AirID +"?adults=1&location="+ cityinput +"&check_in=" + checkin + "&" + "check_out=" + checkout + "&display_extensions%5B%5D=MONTHLY_STAYS&source_impression_id=p3_1596475569_Ye1hL0KJyqYINSTH>" + response.listings[i].listing.room_and_property_type + "-  " + response.listings[i].pricing_quote.price_string + '</a>')
+			$("#airBnB-view").append(AirbnbDivEL)
+			var image = response.listings[i].listing.picture_url
+			var imageDivEl = $("<img>")
+			imageDivEl.addClass("airBnb-image")
+			imageDivEl.attr("src", image)
+			imageDivEl.attr("width","20%")
+			AirbnbDivEL.prepend(imageDivEl)
+			console.log(response.listings[i].listing.coordinate.latitude)
+			var latitude = response.listings[i].listing.coordinate.latitude
+			var longitude = response.listings[i].listing.coordinate.longitude
+			console.log(response.listings[i].listing.coordinate.longitude)
+			var name = "AirBnB: " + response.listings[i].listing.name
+			var description = response.listings[i].pricing_quote.price_string
+			var url = "https://www.airbnb.com/rooms/"+ AirID +"?adults=1&location="+ cityinput +"&check_in=" + checkin + "&" + "check_out=" + checkout + "&display_extensions%5B%5D=MONTHLY_STAYS&source_impression_id=p3_1596475569_Ye1hL0KJyqYINSTH"
+			lats.push(latitude)
+			logs.push(longitude)
+			names.push(name)
+			urls.push(url)
+			descriptions.push(description + " a night")
+			images.push(image)
+
+			googleMaps()
+			
+		}
+	});
+		};
 
 	function googleMaps(){
 		var script = $('<script>');
@@ -244,6 +288,7 @@ $("#add-cities").on("click", function(info) {
 	document.head.prepend(script[0]);
 		};
 
+
 	function airBnbAPI(){
 		var settings = {
 		"crossDomain": true,
@@ -257,6 +302,7 @@ $("#add-cities").on("click", function(info) {
 	
 	$.ajax(settings).done(function (response) {
 		console.log(response)
+
 		var airBnbheader = $("<div>")
         airBnbheader.text("AirBnbs ")
         airBnbheader.addClass("header title is-3 has-text-centered airBnB-header")
@@ -276,6 +322,9 @@ $("#add-cities").on("click", function(info) {
 			});
 		});
 	
+
+		$("#airBnB-view").text("AirBnb")
+
 		for (i = 0; i < 5 ; i++) {
 			var AirbnbDivEL = $("<div>")
 			var AirID = response.listings[i].listing.id
@@ -297,8 +346,8 @@ $("#add-cities").on("click", function(info) {
 
 	function hotelsAPI(){
 		var hotelheader = $("<div>")
-		hotelheader.text("Hotels: ")
-		hotelheader.addClass("header title is-3 hotel-header")
+		hotelheader.text("Hotels")
+		hotelheader.addClass("header title is-3 hotel-header has-text-centered")
 		$("#hotel-view").append(hotelheader)
 
 		var settings = {
@@ -308,13 +357,13 @@ $("#add-cities").on("click", function(info) {
 		"method": "GET",
 		"headers": {
 			"x-rapidapi-host": "hotels4.p.rapidapi.com",
-			"x-rapidapi-key": "d4d0ed6519msh33b01fff60e8af4p1055fdjsna4a8a8c4be3f"
+			"x-rapidapi-key": "a12eed2741mshbf906324d670b9ep15278cjsn15bd4d6a3e8b"
 		}};
 		$.ajax(settings).done(function (response) {
 
 	var toggleHotelButton =$("<button>")
 	toggleHotelButton.attr("id", "toggleHotelButton")
-	toggleHotelButton.addClass(" button is-small is-primary")
+	toggleHotelButton.addClass(" button is-small is-primary is-rounded")
 	$(".hotel-header").append(toggleHotelButton)
 	toggleHotelButton.text("Show")
 	$("#toggleHotelButton").click(function(){
@@ -337,7 +386,7 @@ $("#add-cities").on("click", function(info) {
 		"method": "GET",
 		"headers": {
 			"x-rapidapi-host": "hotels4.p.rapidapi.com",
-			"x-rapidapi-key": "d4d0ed6519msh33b01fff60e8af4p1055fdjsna4a8a8c4be3f"
+			"x-rapidapi-key": "a12eed2741mshbf906324d670b9ep15278cjsn15bd4d6a3e8b"
 		}
 		}
 		$.ajax(settings2).done(function (response) {
@@ -350,7 +399,7 @@ $("#add-cities").on("click", function(info) {
 				var hotelResult = $("<div>");
 				hotelResult.addClass("hotel");
 				hotelResult.attr("data-name", searchResults[i].name)
-				hotelResult.html("<a href=https://www.expedia.com/h" + hotelID +".Hotel-Information?chkin=" + checkin +'&chkout=' +checkout+">"+searchResults[i].name +'</a>')
+				hotelResult.html("<a href=https:/f/www.expedia.com/h" + hotelID +".Hotel-Information?chkin=" + checkin +'&chkout=' +checkout+">"+searchResults[i].name +'</a>')
 				var rateDiv = $("<div>")
 				console.log (searchResults[0].ratePlan.price.current)
 				var rate = searchResults[i].ratePlan.price.current
@@ -367,12 +416,26 @@ $("#add-cities").on("click", function(info) {
 
 				var reviewDiv = $("<div>")
 				console.log (searchResults[0].ratePlan.price.current)
-				var rate = searchResults[0].guestReviews.rating
-				reviewDiv.text("Guest Reviews: " + rate +"/10")
+				var rating = searchResults[0].guestReviews.rating
+				reviewDiv.text("Guest Reviews: " + rating +"/10")
 				hotelResult.append(rateDiv, reviewDiv)
 				divImg.append(imageDivEl, hotelResult)
 				$("#hotel-view").append(divImg); 
+
+				var latitude = searchResults[i].coordinate.lat
+				var longitude = searchResults[i].coordinate.lon
+				var name = searchResults[i].name
+				var description = rate
+				var url = "https:/www.expedia.com/h" + hotelID +".Hotel-Information?chkin=" + checkin +'&chkout=' +checkout
+				lats.push(latitude)
+				logs.push(longitude)
+				names.push(name)
+				urls.push(url)
+				descriptions.push(description + " a night")
+				images.push(image)
 			}
+			console.log(urls)
+
 			$(".hotel-div").hide()
 		})
 	}
@@ -383,5 +446,3 @@ $("#add-cities").on("click", function(info) {
 
 
 displayDates()
-
-
