@@ -59,6 +59,14 @@ function displayDates() {
 		$("#until-form").append(yearUntilselector);
 	}
 	$(".resultDiv").hide()
+
+	displayTime()
+
+	function displayTime() {
+		var time = moment().format('MMMM Do YYYY, h:mm:ss a');
+		$("#currentDay").html('<div id="time">'+time+'</div>');
+		setTimeout(displayTime, 1000)
+	}
 }
 
 $("#add-cities").on("click", function(info) {
@@ -69,6 +77,8 @@ $("#add-cities").on("click", function(info) {
 	$("#airBnB-view").empty()
 	$("#event-view").empty()
 	event.preventDefault();
+
+	//arrays '
 	var lats =[];
 	var logs = [];
 	var names = [];
@@ -76,6 +86,7 @@ $("#add-cities").on("click", function(info) {
 	var descriptions = []
 	var urls = []
 	var logos = []
+
 	var monthfromInput =$("#From-months").val()
 	var dayfromInput = $(".dayfromselector").val()
 	var yearfromInput = $(".yearfromselector").val()
@@ -89,39 +100,7 @@ $("#add-cities").on("click", function(info) {
 	tripadvisor()
 	hotelsAPI()
 
-	$(document).ready(function displayHeaders(){
-		var header = $("<div>")
-		header.text("Attractions")
-		header.addClass("attractionheader header has-text-centered title is-3 is-round")
-		$("#attractions-view").append(header)
-
-		var hotelheader = $("<div>")
-		hotelheader.text("Hotels ")
-		hotelheader.addClass("header title is-3 has-text-centered hotel-header")
-		$("#hotel-view").append(hotelheader)
-
-		var airheader = $("<div>")
-		airheader.text("AirBnb")
-		airheader.addClass("airheader header has-text-centered title is-3")
-		$("#airBnB-view").append(airheader)
-})
-
-	$(".search").toggle("slow")
-	var toggleFormButton =$("<button>")
-	toggleFormButton.attr("id", "toggleFormButton")
-	toggleFormButton.addClass("button is-small is-primary")
-	$("#searchDiv").empty()
-	$("#searchDiv").prepend(toggleFormButton)
-	toggleFormButton.text("Search Form")
-	$("#toggleFormButton").click(function(){
-		$(".search").toggle("slow", function(){
-			if($(this).is(":visible")){
-				$("#toggleFormButton").text("Hide Search");
-			} else {
-				$("#toggleFormButton").text("Search Another City")
-			};
-		});
-	});
+	
 
 	function tripadvisor(){ 
 	var tripAdvisorSettings = {
@@ -130,7 +109,7 @@ $("#add-cities").on("click", function(info) {
 	"method": "GET",
 	"headers": {
 		"x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
-		"x-rapidapi-key": "a12eed2741mshbf906324d670b9ep15278cjsn15bd4d6a3e8b"
+		"x-rapidapi-key": "27e150e0c4msh7135b7e6caf7092p183f1fjsn951cdff51c2a",
 	}}
 
 	$.ajax(tripAdvisorSettings).then(function (response) {
@@ -143,28 +122,13 @@ $("#add-cities").on("click", function(info) {
 		"method": "GET",
 		"headers": {
 			"x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
-			"x-rapidapi-key": "a12eed2741mshbf906324d670b9ep15278cjsn15bd4d6a3e8b"
+			"x-rapidapi-key": "27e150e0c4msh7135b7e6caf7092p183f1fjsn951cdff51c2a",
 		}}
 	$.ajax(AdvisorIDsettings).done(function (response) {
 		console.log(response)
 		airBnbAPI()
 	
-	
-	var toggleAttractionButton =$("<button>")
-	toggleAttractionButton.attr("id", "toggleAttractionButton")
-	toggleAttractionButton.addClass(" button is-small is-primary")
-	$(".attractionheader").append(toggleAttractionButton)
-	toggleAttractionButton.text("Show")
-	$("#toggleAttractionButton").click(function(){
-		$(".attractions").toggle("slow", function(){
-			if($(this).is(":visible")){
-				$("#toggleAttractionButton").text("Hide");
-			} else {
-				$("#toggleAttractionButton").text("Show")
-			}
-		})
-	
-	})
+
 		for (i = 0; i < 5 ; i++) {
 		var attractionDivEl = $("<div>");
 		attractionDivEl.addClass("attractions card column");
@@ -176,7 +140,7 @@ $("#add-cities").on("click", function(info) {
 		p1.addClass("subtitle has-text-centered")
 		p1.html("<a href="+ response.data[i].website+">" +response.data[i].name + " Website" + '</a>')
 		var descriptionDivEl = $("<p>");
-		descriptionDivEl.addClass("description text-is-centered")
+		descriptionDivEl.addClass("description has-text-centered")
 		descriptionDivEl.text("Address: " + response.data[i].address)
 		div2.append(p1,descriptionDivEl)
 		var footer = $("<footer>")
@@ -226,26 +190,10 @@ $("#add-cities").on("click", function(info) {
 		"method": "GET",
 		"headers": {
 			"x-rapidapi-host": "airbnb-com.p.rapidapi.com",
-			"x-rapidapi-key": "a13b3f09ccmsh825433e6c4f4e7ap1240f0jsnfb4c161beb1c"
+			"x-rapidapi-key": "27e150e0c4msh7135b7e6caf7092p183f1fjsn951cdff51c2a"
 		}
 	}
 
-
-	var toggleAirbnbButton =$("<button>")
-	toggleAirbnbButton.attr("id", "toggleAirbnbButton")
-	toggleAirbnbButton.addClass(" button is-small is-primary")
-	$(".airheader").append(toggleAirbnbButton)
-	toggleAirbnbButton.text("Show")
-	$("#toggleAirbnbButton").click(function(){
-		$(".air-div").toggle("slow", function(){
-			if($(this).is(":visible")){
-				$("#toggleAirbnbButton").text("Hide");
-			} else {
-				$("#toggleAirbnbButton").text("Show")
-			}
-		})
-	
-	})
 	
 	$.ajax(settings).done(function (response) {
 		console.log(response)
@@ -269,7 +217,7 @@ $("#add-cities").on("click", function(info) {
 			var airImage = $("<img>")
 			airImage.addClass("airBnb-image")
 			airImage.attr("src", image)
-			airImage.attr("width","20%")
+			airImage.attr("width","150px")
 			
 			airDiv.append(airImage, AirbnbDivEL)
 			AirbnbDivEL.append(rateDiv, hoodDiv,)
@@ -304,8 +252,6 @@ $("#add-cities").on("click", function(info) {
 	var map = new google.maps.Map(
 		  document.getElementById("map"), {zoom: 12, center: centerLocation, gestureHandling: 'cooperative'});
 	var infowindow = new google.maps.InfoWindow();
-	
-	var marker, i;
 	  for (i = 0; i < logs.length; i++) {
 		
 		var image = {
@@ -348,8 +294,6 @@ $("#add-cities").on("click", function(info) {
 	};	
 
 	function hotelsAPI(){
-	
-		
 		var settings = {
 		"async": true,
 		"crossDomain": true,
@@ -357,25 +301,10 @@ $("#add-cities").on("click", function(info) {
 		"method": "GET",
 		"headers": {
 			"x-rapidapi-host": "hotels4.p.rapidapi.com",
-			"x-rapidapi-key": "a12eed2741mshbf906324d670b9ep15278cjsn15bd4d6a3e8b"
+			"x-rapidapi-key": "27e150e0c4msh7135b7e6caf7092p183f1fjsn951cdff51c2a",
 		}};
 		$.ajax(settings).done(function (response) {
 
-	var toggleHotelButton =$("<button>")
-	toggleHotelButton.attr("id", "toggleHotelButton")
-	toggleHotelButton.addClass(" button is-small is-primary")
-	$(".hotel-header").append(toggleHotelButton)
-	toggleHotelButton.text("Show")
-	$("#toggleHotelButton").click(function(){
-		$(".hotel-div").toggle("slow", function(){
-			if($(this).is(":visible")){
-				$("#toggleHotelButton").text("Hide");
-			} else {
-				$("#toggleHotelButton").text("Show")
-			}
-		})
-	
-	})	
 		console.log(response);
 		console.log(response.suggestions[0].entities[0].destinationId)
 		var city = response.suggestions[0].entities[0].destinationId
@@ -386,7 +315,7 @@ $("#add-cities").on("click", function(info) {
 		"method": "GET",
 		"headers": {
 			"x-rapidapi-host": "hotels4.p.rapidapi.com",
-			"x-rapidapi-key": "a12eed2741mshbf906324d670b9ep15278cjsn15bd4d6a3e8b"
+			"x-rapidapi-key": "27e150e0c4msh7135b7e6caf7092p183f1fjsn951cdff51c2a",
 		}
 		}
 		$.ajax(settings2).done(function (response) {
@@ -412,8 +341,6 @@ $("#add-cities").on("click", function(info) {
 				imageDivEl.attr("src", image)
 				imageDivEl.attr("width","150px")
 				
-	
-
 				var reviewDiv = $("<div>")
 				console.log (searchResults[0].ratePlan.price.current)
 				var rating = searchResults[0].guestReviews.rating
@@ -442,6 +369,97 @@ $("#add-cities").on("click", function(info) {
 	}
 	)};
 
+	$(document).ready(checkContainer)
+
+	function checkContainer(){
+		if ($('.air-div').is(':hidden')){
+			displayHeaders();
+		} else{
+		setTimeout(checkContainer, 50);
+		}
+		}
+function displayHeaders(){
+		var header = $("<div>")
+		header.text("Attractions")
+		header.addClass("attractionheader header has-text-centered title is-3 is-round")
+		$("#attractions-view").prepend(header)
+
+		var hotelheader = $("<div>")
+		hotelheader.text("Hotels ")
+		hotelheader.addClass("header title is-3 has-text-centered hotel-header")
+		$("#hotel-view").prepend(hotelheader)
+
+		var airheader = $("<div>")
+		airheader.text("AirBnb")
+		airheader.addClass("airheader header has-text-centered title is-3")
+		$("#airBnB-view").prepend(airheader)
+
+		var toggleAttractionButton =$("<button>")
+	toggleAttractionButton.attr("id", "toggleAttractionButton")
+	toggleAttractionButton.addClass(" button is-small is-primary")
+	$(".attractionheader").append(toggleAttractionButton)
+	toggleAttractionButton.text("Show")
+	$("#toggleAttractionButton").click(function(){
+		$(".attractions").toggle("slow", function(){
+			if($(this).is(":visible")){
+				$("#toggleAttractionButton").text("Hide");
+			} else {
+				$("#toggleAttractionButton").text("Show")
+			}
+		})
+	
+	})
+
+	var toggleAirbnbButton =$("<button>")
+	toggleAirbnbButton.attr("id", "toggleAirbnbButton")
+	toggleAirbnbButton.addClass(" button is-small is-primary")
+	$(".airheader").append(toggleAirbnbButton)
+	toggleAirbnbButton.text("Show")
+	$("#toggleAirbnbButton").click(function(){
+		$(".air-div").toggle("slow", function(){
+			if($(this).is(":visible")){
+				$("#toggleAirbnbButton").text("Hide");
+			} else {
+				$("#toggleAirbnbButton").text("Show")
+			}
+		})
+	
+	})
+
+	var toggleHotelButton =$("<button>")
+	toggleHotelButton.attr("id", "toggleHotelButton")
+	toggleHotelButton.addClass(" button is-small is-primary")
+	$(".hotel-header").append(toggleHotelButton)
+	toggleHotelButton.text("Show")
+	$("#toggleHotelButton").click(function(){
+		$(".hotel-div").toggle("slow", function(){
+			if($(this).is(":visible")){
+				$("#toggleHotelButton").text("Hide");
+			} else {
+				$("#toggleHotelButton").text("Show")
+			}
+		})
+	
+	})
+}
+
+
+	$(".search").toggle("slow")
+	var toggleFormButton =$("<button>")
+	toggleFormButton.attr("id", "toggleFormButton")
+	toggleFormButton.addClass("button is-small is-primary")
+	$("#searchDiv").empty()
+	$("#searchDiv").prepend(toggleFormButton)
+	toggleFormButton.text("Search Form")
+	$("#toggleFormButton").click(function(){
+		$(".search").toggle("slow", function(){
+			if($(this).is(":visible")){
+				$("#toggleFormButton").text("Hide Search");
+			} else {
+				$("#toggleFormButton").text("Search Another City")
+			};
+		});
+	});
 });
 
 

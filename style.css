@@ -10,18 +10,37 @@
     margin: 0px;
     
 }
+.attractionheader{
+    background: url('http://maps.google.com/mapfiles/kml/pal4/icon46.png');
+    background-repeat: no-repeat;
+    background-size: 50px 50px;
+    background-color: white;
+    border-radius: 25px;
+    background-position-y: center;
+}
 
+.hotel-header{
+    background: url('http://maps.google.com/mapfiles/kml/pal2/icon20.png');
+    background-repeat: no-repeat;
+    background-size: 50px 50px;
+    background-color: white;
+    border-radius: 25px;
+    background-position-y: center;
+}
+.airheader{
+    background: url('http://maps.google.com/mapfiles/kml/pal5/icon12.png');
+    background-repeat: no-repeat;
+    background-size: 50px 50px;
+    background-color: white;
+    border-radius: 25px;
+    background-position-y: center;
+}
 .header{
     font-family: 'Catamaran', sans-serif;
-    padding: 0px;
-    color: whitesmoke;
+    color: solid 1px rgb(41, 224, 200);
     font-family: 'Recursive', sans-serif;
     margin-bottom: 20px;
-    border-radius: 25px;
-    padding: 10px;
-    background: url('./background.png')
-
-
+    padding: 15px;
 }
 
 .resultDiv{
@@ -39,6 +58,7 @@
 #toggleAirbnbButton {
     float: right;
     border-radius: 25px;
+    background-position-y: center;
 }
 
 select {
@@ -60,22 +80,23 @@ body {
     background: lightblue url('./background.png') no-repeat fixed center;
 }
 
-.hero {
-    background-color: rgb(247, 247, 247);
-    border-radius: px;
-    margin-bottom: 20px;
-    opacity: 0.5;
+.main-image {
+    opacity: 0.35;
+}
+#From-form{
+    margin-right: 20px
 }
 
 .attractions {
     border: solid 1px rgb(41, 224, 200);
-    background-color: rgb(247, 247, 247);
+    background-color: rgb(255, 255, 255);
     border-radius: 1px;
     margin-bottom:10px;    
+    
 }
 
 
-.container{
+.container {
     margin-bottom: 10px;
 }
 
@@ -87,6 +108,8 @@ body {
     background-color: rgb(247, 247, 247);
     border-radius: 5px;
     margin-bottom:10px;
+    padding: 5px;
+    margin: 5px;
 }
 
 a{
@@ -95,4 +118,10 @@ a{
 .main-search{
     padding-bottom: 20px;
 }
-
+.air-div{
+    margin-left: 10px;
+}
+#time{
+    font-size: 15px;
+    color: rgb(41, 224, 200);
+}
