@@ -5,13 +5,31 @@
 
 }
 
+.card-content{
+    padding: 0px;
+    margin: 0px;
+    
+}
+
 .header{
     font-family: 'Catamaran', sans-serif;
-    border-bottom: solid 5px rgb(41, 224, 200);
-    color:grey;
     padding: 0px;
+    color: whitesmoke;
     font-family: 'Recursive', sans-serif;
-    padding: 0px;
+    margin-bottom: 20px;
+    border-radius: 25px;
+    padding: 10px;
+    background: url('./background.png')
+
+}
+
+.resultDiv{
+    padding: 20px;
+    
+}
+
+.hotel{
+    padding: 20px;
 }
 
 #toggleFormButton,
@@ -19,6 +37,7 @@
 #toggleHotelButton, 
 #toggleAirbnbButton {
     float: right;
+    border-radius: 25px;
 }
 
 select {
@@ -37,43 +56,42 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
+    background: lightblue url('./background.png') no-repeat fixed center;
 }
 
 .hero {
-    border: solid 5px rgb(41, 224, 200);
     background-color: rgb(247, 247, 247);
-    border-radius: 5px;
+    border-radius: px;
     margin-bottom: 20px;
+    opacity: 0.5;
 }
 
-.attractions.card.column {
-    border: solid 5px rgb(41, 224, 200);
+.attractions {
+    border: solid 1px rgb(41, 224, 200);
     background-color: rgb(247, 247, 247);
-    border-radius: 5px;
-    margin-bottom:10px;
-   
-    
+    border-radius: 1px;
+    margin-bottom:10px;    
 }
+
 
 .container{
-    margin-bottom: 10px
+    margin-bottom: 10px;
 }
 
-.hotel-div {
+.hotel-div,
+.air-div {
     margin-top: 10px;
     margin-bottom: 10px;
-    border: solid 5px rgb(41, 224, 200);
+    border: solid 1px rgb(41, 224, 200);
     background-color: rgb(247, 247, 247);
     border-radius: 5px;
     margin-bottom:10px;
 }
 
-
-.header {
-    margin-top: 50px;
-   
+a{
+   color: rgb(41, 224, 200);
+}
+.main-search{
+    padding-bottom: 20px;
 }
 
-#airBnB-view {
-    font-family: 'Catamaran', sans-serif;
-}

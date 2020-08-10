@@ -58,9 +58,11 @@ function displayDates() {
 		yearUntilselector.append(yearUntilOption)
 		$("#until-form").append(yearUntilselector);
 	}
+	$(".resultDiv").hide()
 }
 
 $("#add-cities").on("click", function(info) {
+	$(".resultDiv").show()
 	$("#hotel-view").empty()
 	$("#map").empty()
 	$("#attractions-view").empty()
@@ -73,6 +75,7 @@ $("#add-cities").on("click", function(info) {
 	var images = [];
 	var descriptions = []
 	var urls = []
+	var logos = []
 	var monthfromInput =$("#From-months").val()
 	var dayfromInput = $(".dayfromselector").val()
 	var yearfromInput = $(".yearfromselector").val()
@@ -85,6 +88,23 @@ $("#add-cities").on("click", function(info) {
 
 	tripadvisor()
 	hotelsAPI()
+
+	$(document).ready(function displayHeaders(){
+		var header = $("<div>")
+		header.text("Attractions")
+		header.addClass("attractionheader header has-text-centered title is-3 is-round")
+		$("#attractions-view").append(header)
+
+		var hotelheader = $("<div>")
+		hotelheader.text("Hotels ")
+		hotelheader.addClass("header title is-3 has-text-centered hotel-header")
+		$("#hotel-view").append(hotelheader)
+
+		var airheader = $("<div>")
+		airheader.text("AirBnb")
+		airheader.addClass("airheader header has-text-centered title is-3")
+		$("#airBnB-view").append(airheader)
+})
 
 	$(".search").toggle("slow")
 	var toggleFormButton =$("<button>")
@@ -102,7 +122,7 @@ $("#add-cities").on("click", function(info) {
 			};
 		});
 	});
-	
+
 	function tripadvisor(){ 
 	var tripAdvisorSettings = {
 	"crossDomain": true,
@@ -128,12 +148,7 @@ $("#add-cities").on("click", function(info) {
 	$.ajax(AdvisorIDsettings).done(function (response) {
 		console.log(response)
 		airBnbAPI()
-		
-		
-		var header = $("<div>")
-		header.text("Attractions")
-		header.addClass("attractionheader header has-text-centered title is-3")
-		$("#attractions-view").append(header)
+	
 	
 	var toggleAttractionButton =$("<button>")
 	toggleAttractionButton.attr("id", "toggleAttractionButton")
@@ -158,20 +173,20 @@ $("#add-cities").on("click", function(info) {
 		attractionDivEl.attr("data-set",[i]);
 		attractionDivEl.append(div2)
 		var p1 = $("<p>");
-		p1.addClass("title  has-text-centered")
-		p1.text(response.data[i].name)
+		p1.addClass("subtitle has-text-centered")
+		p1.html("<a href="+ response.data[i].website+">" +response.data[i].name + " Website" + '</a>')
 		var descriptionDivEl = $("<p>");
-		descriptionDivEl.addClass("description")
-		descriptionDivEl.text(response.data[i].description)
+		descriptionDivEl.addClass("description text-is-centered")
+		descriptionDivEl.text("Address: " + response.data[i].address)
 		div2.append(p1,descriptionDivEl)
 		var footer = $("<footer>")
 		footer.addClass("card-footer")
 		attractionDivEl.append(footer)
 		
 		var p1footer = $("<p>")
-		p1footer.addClass("card-footer-item subtitle")
+		p1footer.addClass("card-footer-item")
 		var span1 = $("<span>")
-		span1.html("<a href="+ response.data[i].website+">" +response.data[i].name + " Website" + '</a>')
+		span1.text(response.data[i].description)
 		p1footer.append(span1)
 
 		var p2footer = $("<p>")
@@ -199,8 +214,10 @@ $("#add-cities").on("click", function(info) {
 		descriptions.push(description)
 		images.push(image)
 		urls.push(url)
+		logos.push("http://maps.google.com/mapfiles/kml/pal4/icon46.png")[i]
 		};
 		$(".attractions").hide()
+		console.log(logos)
 	});
 	function airBnbAPI(){
 		var settings = {
@@ -209,14 +226,10 @@ $("#add-cities").on("click", function(info) {
 		"method": "GET",
 		"headers": {
 			"x-rapidapi-host": "airbnb-com.p.rapidapi.com",
-			"x-rapidapi-key": "a12eed2741mshbf906324d670b9ep15278cjsn15bd4d6a3e8b"
+			"x-rapidapi-key": "a13b3f09ccmsh825433e6c4f4e7ap1240f0jsnfb4c161beb1c"
 		}
 	}
 
-		var airheader = $("<div>")
-		airheader.text("AirBnb")
-		airheader.addClass("airheader header has-text-centered title is-3")
-		$("#airBnB-view").append(airheader)
 
 	var toggleAirbnbButton =$("<button>")
 	toggleAirbnbButton.attr("id", "toggleAirbnbButton")
@@ -224,7 +237,7 @@ $("#add-cities").on("click", function(info) {
 	$(".airheader").append(toggleAirbnbButton)
 	toggleAirbnbButton.text("Show")
 	$("#toggleAirbnbButton").click(function(){
-		$(".airbnbDiv").toggle("slow", function(){
+		$(".air-div").toggle("slow", function(){
 			if($(this).is(":visible")){
 				$("#toggleAirbnbButton").text("Hide");
 			} else {
@@ -237,18 +250,30 @@ $("#add-cities").on("click", function(info) {
 	$.ajax(settings).done(function (response) {
 		console.log(response)
 		for (i = 0; i < 5 ; i++) {
+			var airDiv = $("<div>")
+			airDiv.addClass("air-div level-left")
 			var AirbnbDivEL = $("<div>")
 			var AirID = response.listings[i].listing.id
 			AirbnbDivEL.addClass("airbnbDiv")
-			AirbnbDivEL.html('<a href='+"https://www.airbnb.com/rooms/"+ AirID +"?adults=1&location="+ cityinput +"&check_in=" + checkin + "&" + "check_out=" + checkout + "&display_extensions%5B%5D=MONTHLY_STAYS&source_impression_id=p3_1596475569_Ye1hL0KJyqYINSTH>" + response.listings[i].listing.room_and_property_type + "-  " + response.listings[i].pricing_quote.price_string + '</a>')
-			$("#airBnB-view").append(AirbnbDivEL)
+			AirbnbDivEL.html('<a href='+"https://www.airbnb.com/rooms/"+ AirID +"?adults=1&location="+ cityinput +"&check_in=" + checkin + "&" + "check_out=" + checkout + "&display_extensions%5B%5D=MONTHLY_STAYS&source_impression_id=p3_1596475569_Ye1hL0KJyqYINSTH>" + response.listings[i].listing.room_and_property_type + '</a>')
+
+			var rateDiv = $("<div>")
+			var rate =  response.listings[i].pricing_quote.price_string
+			rateDiv.text("Daily Rates: " + rate)
+
+			var hoodDiv = $('<div>')
+			var hood = response.listings[i].listing.neighborhood
+			hoodDiv.text("Neighborhood: " + hood)
+
 			var image = response.listings[i].listing.picture_url
-			var imageDivEl = $("<img>")
-			imageDivEl.addClass("airBnb-image")
-			imageDivEl.attr("src", image)
-			imageDivEl.attr("width","20%")
-			AirbnbDivEL.prepend(imageDivEl)
-			console.log(response.listings[i].listing.coordinate.latitude)
+			var airImage = $("<img>")
+			airImage.addClass("airBnb-image")
+			airImage.attr("src", image)
+			airImage.attr("width","20%")
+			
+			airDiv.append(airImage, AirbnbDivEL)
+			AirbnbDivEL.append(rateDiv, hoodDiv,)
+			$("#airBnB-view").append(airDiv)
 			var latitude = response.listings[i].listing.coordinate.latitude
 			var longitude = response.listings[i].listing.coordinate.longitude
 			console.log(response.listings[i].listing.coordinate.longitude)
@@ -261,9 +286,9 @@ $("#add-cities").on("click", function(info) {
 			urls.push(url)
 			descriptions.push(description + " a night")
 			images.push(image)
-
+			logos.push("http://maps.google.com/mapfiles/kml/pal5/icon12.png")[i]
 			googleMaps()
-			$(".airbnbDiv").hide()
+			$(".air-div").hide()
 		}
 	});
 		};
@@ -279,13 +304,24 @@ $("#add-cities").on("click", function(info) {
 	var map = new google.maps.Map(
 		  document.getElementById("map"), {zoom: 12, center: centerLocation, gestureHandling: 'cooperative'});
 	var infowindow = new google.maps.InfoWindow();
+	
 	var marker, i;
 	  for (i = 0; i < logs.length; i++) {
+		
+		var image = {
+			url: logos[i],
+			// This marker is 20 pixels wide by 32 pixels high.
+			size: new google.maps.Size(32, 32),
+			// The origin for this image is (0, 0).
+			origin: new google.maps.Point(0, 0),
+			// The anchor for this image is the base of the flagpole at (0, 32)
+			anchor: new google.maps.Point(0, 32)
+		  };
 		
 		var marker = new google.maps.Marker({
             position: new google.maps.LatLng(Number(lats[i]), Number(logs[i])),
 			map: map,
-			title: names[i],
+			icon: image,
 			
 		  });
 		  google.maps.event.addListener(marker, 'click', (function(marker, i) {
@@ -312,11 +348,8 @@ $("#add-cities").on("click", function(info) {
 	};	
 
 	function hotelsAPI(){
-		var hotelheader = $("<div>")
-		hotelheader.text("Hotels ")
-		hotelheader.addClass("header title is-3 has-text-centered hotel-header")
-		$("#hotel-view").append(hotelheader)
-
+	
+		
 		var settings = {
 		"async": true,
 		"crossDomain": true,
@@ -399,6 +432,7 @@ $("#add-cities").on("click", function(info) {
 				names.push(name)
 				urls.push(url)
 				descriptions.push(description + " a night")
+				logos.push("http://maps.google.com/mapfiles/kml/pal2/icon20.png")[i]
 				images.push(image)
 			}
 			console.log(urls)
