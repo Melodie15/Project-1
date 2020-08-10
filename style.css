@@ -77,7 +77,7 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
-    background: lightblue url('./background.png') no-repeat fixed center;
+    background: white url('./background.png') no-repeat fixed center;
 }
 
 .main-image {
@@ -122,6 +122,6 @@ a{
     margin-left: 10px;
 }
 #time{
-    font-size: 15px;
-    color: rgb(41, 224, 200);
+    font-size: 20px;
+    color: rgba(105, 72, 34, 0.966);
 }
