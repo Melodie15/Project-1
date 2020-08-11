@@ -17,6 +17,7 @@
     background-color: white;
     border-radius: 25px;
     background-position-y: center;
+    
 }
 
 .hotel-header{
@@ -123,5 +124,4 @@ a{
 }
 #time{
     font-size: 15px;
-    color: rgb(41, 224, 200);
 }
