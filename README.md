@@ -10,7 +10,9 @@
 ### Once a user types a city in the search box, the hotels, airbnbs and attractions will populate below the search box.
 
 
-![open screenshot](https://user-images.githubusercontent.com/59548398/89952791-18514c00-dbeb-11ea-830c-d4b2e34d7340.PNG)
+
+![open screenshot](https://user-images.githubusercontent.com/59548398/89953341-22277f00-dbec-11ea-9bec-10a9ad95c537.PNG)
+
 
 
 ### The websites are active in the windows, so users can click on the link to get even more detail about hotels, airbnb's and attractions.  
