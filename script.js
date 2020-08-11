@@ -78,7 +78,7 @@ $("#add-cities").on("click", function(info) {
 	$("#event-view").empty()
 	event.preventDefault();
 
-	//arrays '
+	
 	var lats =[];
 	var logs = [];
 	var names = [];
@@ -91,7 +91,6 @@ $("#add-cities").on("click", function(info) {
 	var dayfromInput = $(".dayfromselector").val()
 	var yearfromInput = $(".yearfromselector").val()
 	var cityinput = $("#city-input").val().trim();
-	var cityinput2 =  $("#city-input2").val().trim();
 	var monthUntilInput = $("#until-month").val()
 	var dayUntilInput = $(".dayUntilSelector").val()
 	var yearUntilInput =$(".yearUntilSelector").val()
@@ -100,40 +99,7 @@ $("#add-cities").on("click", function(info) {
 
 	tripadvisor()
 	hotelsAPI()
-	flightAPI()
 
-
-	function flightAPI(){
-		var flightsettings = {
-			"async": true,
-			"crossDomain": true,
-			"url": "https://tripadvisor1.p.rapidapi.com/airports/search?locale=en_US&query=" + cityinput,
-			"method": "GET",
-			"headers": {
-				"x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
-				"x-rapidapi-key": "27e150e0c4msh7135b7e6caf7092p183f1fjsn951cdff51c2a"
-			}
-		}
-		$.ajax(flightsettings).done(function (response) {
-		var cityTo = response[0].code
-		console.log(response);
-	
-			var flightsettings2 = {
-			"async": true,
-			"crossDomain": true,
-			"url": "https://tripadvisor1.p.rapidapi.com/airports/search?locale=en_US&query=" + cityinput2,
-			"method": "GET",
-			"headers": {
-				"x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
-				"x-rapidapi-key": "27e150e0c4msh7135b7e6caf7092p183f1fjsn951cdff51c2a"
-				}
-			}
-			$.ajax(flightsettings2).done(function (response) {
-			console.log(response);
-			var cityFrom  = response[0].code
-			});
-		});
-	};
 	
 
 	function tripadvisor(){ 
@@ -147,7 +113,6 @@ $("#add-cities").on("click", function(info) {
 	}}
 
 	$.ajax(tripAdvisorSettings).then(function (response) {
-	console.log(response)
 	var tripAdvisorID = response.data[0].result_object.location_id
 	var lati = response.data[0].result_object.latitude
 	var lon = response.data[0].result_object.longitude
@@ -414,23 +379,6 @@ $("#add-cities").on("click", function(info) {
 		}
 		}
 function displayHeaders(){
-	$(".search").toggle("slow")
-	var toggleFormButton =$("<button>")
-	toggleFormButton.attr("id", "toggleFormButton")
-	toggleFormButton.addClass("button is-small is-primary")
-	$("#searchDiv").empty()
-	$("#searchDiv").prepend(toggleFormButton)
-	toggleFormButton.text("Search Form")
-	$("#toggleFormButton").click(function(){
-		$(".search").toggle("slow", function(){
-			if($(this).is(":visible")){
-				$("#toggleFormButton").text("Hide Search");
-			} else {
-				$("#toggleFormButton").text("Search Another City")
-			};
-		});
-	});
-
 		var header = $("<div>")
 		header.text("Attractions")
 		header.addClass("attractionheader header has-text-centered title is-3 is-round")
@@ -496,6 +444,22 @@ function displayHeaders(){
 }
 
 
+	$(".search").toggle("slow")
+	var toggleFormButton =$("<button>")
+	toggleFormButton.attr("id", "toggleFormButton")
+	toggleFormButton.addClass("button is-small is-primary")
+	$("#searchDiv").empty()
+	$("#searchDiv").prepend(toggleFormButton)
+	toggleFormButton.text("Search Form")
+	$("#toggleFormButton").click(function(){
+		$(".search").toggle("slow", function(){
+			if($(this).is(":visible")){
+				$("#toggleFormButton").text("Hide Search");
+			} else {
+				$("#toggleFormButton").text("Search Another City")
+			};
+		});
+	});
 });
 
 
