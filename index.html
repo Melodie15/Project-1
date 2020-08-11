@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.0/css/bulma.min.css" />
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Catamaran:wght@900&display=swap" rel="stylesheet">
-
   
     <title>Travel Genie</title>
 
@@ -16,14 +15,15 @@
   <section class="hero">
     <div class="hero-body">
       <div class="container has-text-centered">
-        <img src="./tg-icon4.PNG" width="300" height="300">
+        <img class ="main-image" src="./tg-icon4.PNG" width="400" height="400">
+        <div id ="currentDay"></div>
       </div>
     </div>
   </section>
   
-    <div class="container">
+    <div class="container main-search">
       <div id = "searchDiv" class ="level-right"></div>
-      <div class="notification search"> 
+      <div class= "search"> 
         <h1 class="title has-text-centered"><strong>Where are you headed?</strong></h1>
         <form id="city-form" class = "has-text-centered">
                 <label for="city-input"></label><br>
@@ -72,20 +72,16 @@
     </div>
 
   
-  <div class="container">
-    <div class="notification">
-        <div id="hotel-view">
-        </div>
+  <div class="container resultDiv">
         <div id="attractions-view">
         </div>
-        <div id="event-view">
+        <div id="hotel-view">
         </div>
         <div id="airBnB-view">
         </div>
-    </div>
   </div>
   <div id="map"></div>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="script.js"></script>
   </body>
