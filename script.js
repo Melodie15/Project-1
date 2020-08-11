@@ -378,7 +378,26 @@ $("#add-cities").on("click", function(info) {
 		setTimeout(checkContainer, 50);
 		}
 		}
+		$(".search").toggle("slow")
 function displayHeaders(){
+	var toggleFormButton =$("<button>")
+	toggleFormButton.attr("id", "toggleFormButton")
+	toggleFormButton.addClass("button is-small is-primary")
+	$("#searchDiv").empty()
+	$("#searchDiv").prepend(toggleFormButton)
+	toggleFormButton.text("Search Form")
+	$("#toggleFormButton").click(function(){
+		$(".search").toggle("slow", function(){
+			if($(this).is(":visible")){
+				$("#toggleFormButton").text("Hide Search");
+			} else {
+				$("#toggleFormButton").text("Search Another City")
+			};
+		});
+	});
+
+	
+
 		var header = $("<div>")
 		header.text("Attractions")
 		header.addClass("attractionheader header has-text-centered title is-3 is-round")
@@ -410,21 +429,7 @@ function displayHeaders(){
 	
 	})
 
-	var toggleAirbnbButton =$("<button>")
-	toggleAirbnbButton.attr("id", "toggleAirbnbButton")
-	toggleAirbnbButton.addClass(" button is-small is-primary")
-	$(".airheader").append(toggleAirbnbButton)
-	toggleAirbnbButton.text("Show")
-	$("#toggleAirbnbButton").click(function(){
-		$(".air-div").toggle("slow", function(){
-			if($(this).is(":visible")){
-				$("#toggleAirbnbButton").text("Hide");
-			} else {
-				$("#toggleAirbnbButton").text("Show")
-			}
-		})
-	
-	})
+
 
 	var toggleHotelButton =$("<button>")
 	toggleHotelButton.attr("id", "toggleHotelButton")
@@ -444,22 +449,8 @@ function displayHeaders(){
 }
 
 
-	$(".search").toggle("slow")
-	var toggleFormButton =$("<button>")
-	toggleFormButton.attr("id", "toggleFormButton")
-	toggleFormButton.addClass("button is-small is-primary")
-	$("#searchDiv").empty()
-	$("#searchDiv").prepend(toggleFormButton)
-	toggleFormButton.text("Search Form")
-	$("#toggleFormButton").click(function(){
-		$(".search").toggle("slow", function(){
-			if($(this).is(":visible")){
-				$("#toggleFormButton").text("Hide Search");
-			} else {
-				$("#toggleFormButton").text("Search Another City")
-			};
-		});
-	});
+
+	
 });
 
 
