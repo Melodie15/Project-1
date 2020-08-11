@@ -59,6 +59,7 @@
     float: right;
     border-radius: 25px;
     background-position-y: center;
+   
 }
 
 select {
@@ -68,8 +69,9 @@ select {
     font-size: 25px;
 }
 
-#city-input{
-    width: 80%
+#city-input,
+#city-input2{
+    width: 30%
 }
 
 html,
@@ -78,13 +80,17 @@ body {
     margin: 0;
     padding: 0;
     background: white url('./background.png') no-repeat fixed center;
+    cursor: url('https://img.icons8.com/ios-filled/25/000000/lamp-of-alladin.png'), auto;
 }
 
 .main-image {
     opacity: 0.35;
 }
-#From-form{
-    margin-right: 20px
+#From-form,{
+    margin-right: 20px;
+}
+#city-form{
+    margin-right: 50px;
 }
 
 .attractions {

@@ -24,11 +24,16 @@
     <div class="container main-search">
       <div id = "searchDiv" class ="level-right"></div>
       <div class= "search"> 
-        <h1 class="title has-text-centered"><strong>Where are you headed?</strong></h1>
+
+        <h1 class="title has-text-centered"><strong>Let me make your traveling wishes come true!</strong></h1>
         <form id="city-form" class = "has-text-centered">
-                <label for="city-input"></label><br>
-                <input class="input is-rounded is-primary" id="city-input" type="text" placeholder="City">
+          <div>
+                <label for="city-input">From</label>
+                <input class="input is-rounded is-primary" id="city-input2" type="text" placeholder="Search City">
+                <label for="city-input">To</label>
+                <input class="input is-rounded is-primary" id="city-input" type="text" placeholder="Search City">
                 <button class="button is-rounded is-primary" id="add-cities" type="submit">Search</button>
+          </div>
         </form>
 
         <div class = "is-full has-text-centered ">
@@ -68,11 +73,13 @@
                   </select>  
                 </form>
         </div>
-      </div>    
+      </div>  
     </div>
 
   
   <div class="container resultDiv">
+        <div id ="flights">
+        </div>
         <div id="attractions-view">
         </div>
         <div id="hotel-view">
